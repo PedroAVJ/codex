@@ -1,6 +1,6 @@
 {
   "name": "codex",
-  "version": "0.8.21",
+  "version": "0.8.22",
   "description": "Use OpenAI Codex through its CLI and app-server, with realtime task orchestration, shared memory, review and rescue handoffs, coding contracts, and the Codex Voice Apple Watch companion.",
   "author": {
     "name": "PedroAVJ",
@@ -28,7 +28,7 @@
     "shortDescription": "Codex runtime, shared memory, reviews, and Watch voice",
     "longDescription": "Work with OpenAI Codex as a coding agent and developer product: coordinate realtime conversations with sub-agent-first research and substantial implementation, explicitly requested separate tasks, and a user-controlled one-topic priority queue; use its CLI and app-server runtime; share canonical Codex memory with Claude Code; hand coding work and reviews to Codex; preserve the prompting and result-handling contracts around those runs; and securely pair the Codex Voice iPhone and Apple Watch companion with the Mac bridge. Desktop-host internals and patching live in the separate ChatGPT app plugin because the products now share one bundle.",
     "developerName": "PedroAVJ",
-    "category": "Developer Tools",
+    "category": "AI",
     "capabilities": [
       "Interactive",
       "Read",

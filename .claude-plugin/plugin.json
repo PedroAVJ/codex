@@ -1,6 +1,6 @@
 {
   "name": "codex",
-  "version": "0.8.21",
+  "version": "0.8.22",
   "description": "Use OpenAI Codex from Claude Code for coding, shared memory, image prompting, rescue, review, and the Codex Voice Apple Watch companion.",
   "author": {
     "name": "PedroAVJ",
