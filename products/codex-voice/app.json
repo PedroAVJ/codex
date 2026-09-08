@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "Pedro Voice Agent",
+    "slug": "codex-voice",
+    "version": "0.3.11",
+    "orientation": "portrait",
+    "platforms": [
+      "ios"
+    ],
+    "scheme": "codexvoice",
+    "runtimeVersion": {
+      "policy": "fingerprint"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/6fc127b3-71fb-4809-ada2-e4d8ffca36f4",
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    },
+    "ios": {
+      "bundleIdentifier": "com.pedro.CodexVoice.watchkitapp",
+      "buildNumber": "26",
+      "appleTeamId": "KC2ZK3BWH7",
+      "supportsTablet": false,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Pedro Voice Agent scans the one-time pairing QR shown by your Mac."
+        }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "codex-voice",
+          "organization": "clockwork-c3"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6fc127b3-71fb-4809-ada2-e4d8ffca36f4"
+      }
+    }
+  }
+}

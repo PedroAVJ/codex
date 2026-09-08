@@ -1,0 +1,95 @@
+name: Codex Voice Expo update
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/codex-voice-ci.yml'
+      - 'products/codex-voice/.eas/workflows/**'
+      - 'products/codex-voice/.eas/build/**'
+      - 'products/codex-voice/.easignore'
+      - 'products/codex-voice/scripts/publish-ios-update.sh'
+      - 'products/codex-voice/scripts/build-ios-local.sh'
+      - 'products/codex-voice/tests/ios-release-contract.test.mjs'
+      - 'products/codex-voice/App.js'
+      - 'products/codex-voice/index.js'
+      - 'products/codex-voice/app.json'
+      - 'products/codex-voice/eas.json'
+      - 'products/codex-voice/fingerprint.config.cjs'
+      - 'products/codex-voice/babel.config.js'
+      - 'products/codex-voice/metro.config.js'
+      - 'products/codex-voice/package.json'
+      - 'products/codex-voice/package-lock.json'
+      - 'products/codex-voice/ios/**'
+      - 'products/codex-voice/Bridge/Sources/CodexVoiceProtocol/**'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/codex-voice-ci.yml'
+      - 'products/codex-voice/.eas/workflows/**'
+      - 'products/codex-voice/.eas/build/**'
+      - 'products/codex-voice/.easignore'
+      - 'products/codex-voice/scripts/publish-ios-update.sh'
+      - 'products/codex-voice/scripts/build-ios-local.sh'
+      - 'products/codex-voice/tests/ios-release-contract.test.mjs'
+      - 'products/codex-voice/App.js'
+      - 'products/codex-voice/index.js'
+      - 'products/codex-voice/app.json'
+      - 'products/codex-voice/eas.json'
+      - 'products/codex-voice/fingerprint.config.cjs'
+      - 'products/codex-voice/babel.config.js'
+      - 'products/codex-voice/metro.config.js'
+      - 'products/codex-voice/package.json'
+      - 'products/codex-voice/package-lock.json'
+      - 'products/codex-voice/ios/**'
+      - 'products/codex-voice/Bridge/Sources/CodexVoiceProtocol/**'
+
+concurrency:
+  group: codex-voice-ios-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Verify and publish the Expo update
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: products/codex-voice
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Install Expo app dependencies
+        run: npm ci
+
+      - name: Check release and product contracts
+        if: github.event_name == 'pull_request'
+        run: node --test tests/*.test.mjs
+
+      - name: Export the iOS JavaScript bundle
+        if: github.event_name == 'pull_request'
+        run: npm run export:ios
+
+      - name: Validate Expo native configuration
+        if: github.event_name == 'pull_request'
+        run: |
+          npx expo-updates configuration:syncnative --platform ios --workflow generic
+          git diff --exit-code -- ios
+
+      - name: Set up Expo Update
+        if: github.event_name == 'push' && vars.CODEX_VOICE_PUBLISH_ENABLED == 'true'
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: 22.2.0
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Publish the production update
+        if: github.event_name == 'push' && vars.CODEX_VOICE_PUBLISH_ENABLED == 'true'
+        run: npm run eas:update -- --message "GitHub $GITHUB_SHA"

@@ -1,0 +1,33 @@
+{
+  "cli": {
+    "version": ">=22.2.0",
+    "appVersionSource": "remote",
+    "requireCommit": true
+  },
+  "build": {
+    "production": {
+      "environment": "production",
+      "distribution": "store",
+      "channel": "production",
+      "autoIncrement": true,
+      "env": {
+        "EAS_NO_VCS": "1"
+      },
+      "ios": {
+        "scheme": "CodexVoice",
+        "buildConfiguration": "Release",
+        "config": "production-ios.yml",
+        "credentialsSource": "remote",
+        "image": "latest",
+        "resourceClass": "medium"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "ascAppId": "6804499620"
+      }
+    }
+  }
+}

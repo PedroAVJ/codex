@@ -1,0 +1,8 @@
+.agents/
+.claude/
+.next/
+.vercel/
+.env*
+node_modules/
+skills-lock.json
+*.tsbuildinfo

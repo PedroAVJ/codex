@@ -1,0 +1,22 @@
+# Repository guidance
+
+- Keep the iPhone app a pairing companion, not a second chat interface.
+- Keep the Apple Watch interaction voice-first and glanceable.
+- Keep the bridge remote-only: it must make an outbound `wss://` relay connection and expose no inbound listener. Pairing must use the one-time QR ticket, pinned P-256 server identity, signed relay authorization, and encrypted application frames.
+- Never place the OpenRouter API key in source, logs, QR payloads, device storage, or LaunchAgent plists. Store it only in the Mac login Keychain.
+- Use documented public OpenRouter audio input/output, streaming chat-completion, tool-calling, and Codex app-server interfaces. Do not add a separate speech-to-text step and do not reverse engineer ChatGPT Remote or private GPT Live relays.
+- Keep local build concurrency conservative and use the declared serial Swift checks.
+- Use `apply_patch` for text edits. Preserve unrelated work and avoid destructive Git operations.
+- The iPhone pairing companion is Expo/React Native and uses `expo-updates`; the Watch app and complication remain native Apple targets. Relay JavaScript deploys independently and does not affect the mobile fingerprint unless the shared native wire contract also changes.
+- Keep OTA and native delivery independent. GitHub Actions may validate and publish `eas update` to the production channel after a merge; never gate that update on an existing binary. After deployment, the user may run `scripts/build-ios-local.sh --check` on the operator's Mac. Only a missing compatible production fingerprint permits that same local script to create one signed IPA with `eas build --local`, submit the local path with EAS Submit, and register it with `eas upload`. CI must never compile or submit a native binary, no self-hosted runner is part of this release, and no release task may cancel, retry, replace, or otherwise alter a build or submission it did not create.
+- Keep EAS build numbers remote with `autoIncrement: true`. Bump the user-facing app version deliberately for a release cycle; do not spend a build merely to edit or synchronize a local build number.
+
+## Claude Design
+
+- The public product identity is **Pedro Voice Agent**. Preserve its paper/ink companion system, cobalt-cyan-violet relay artwork, headerless Watch layout, and native control hierarchy. Do not ship OpenAI, ChatGPT, Codex, or other third-party names, logos, marks, voice-orb frames, or lookalike artwork as product branding.
+- Resolve the operator-selected design workspace from private local configuration before accessing design references.
+- Keep the iPhone surface limited to pairing and connection health. Keep Watch voice automatic: opening connects and listens, silence ends the turn, output streams, speech interrupts, and listening resumes. Never add tap-to-send, push-to-talk, a transcription phase, a visible user transcript, or ordinary-state instruction/status copy.
+- The ordinary Watch loop uses the original circular `RelayPulse` asset with no halo, ring, gloss, repeated product header, or custom frame timer. Use native progress UI only while connecting. Only connection, approval, recovery, and error states receive visible copy; recovery uses a 44-point `arrow.clockwise` control with an accessibility label.
+- The shared system owns neutral surfaces, typography, spacing, motion, controls, accessibility, native iPhone/Watch templates, and complication rules. The complication uses the native `waveform` SF Symbol with no backing tile.
+- A Watch UI or complication change is not accepted by source-string assertions or generic WidgetKit previews. Before release, render the installed extension in the exact Solar Dial Digital bottom-left slot, capture both the Watch face and iPhone Watch-app preview, cold-restart once, and verify the complication launches the Watch app.
+- A Watch audio change must retain sanitized stage diagnostics and pass the synthetic PCM-to-wire-to-WAV integration test. Run the DEBUG simulator microphone probe when a compatible runtime is available. Require `first_buffer` when the simulator exposes a nonzero input format; if the runtime reports zero input sample rate or channels, record that exact diagnostic as a simulator limitation. Verify the encrypted relay, bridge, Codex, provider, and returned-audio path independently. A physical Watch turn is separate device evidence, not a source, merge, or deployment prerequisite unless the user explicitly requests that device test.

@@ -1,0 +1,131 @@
+name: CodexVoice
+options:
+  bundleIdPrefix: com.pedro
+  createIntermediateGroups: true
+  deploymentTarget:
+    iOS: "18.0"
+    watchOS: "11.0"
+settings:
+  base:
+    CODE_SIGN_STYLE: Automatic
+    CURRENT_PROJECT_VERSION: 26
+    DEVELOPMENT_TEAM: KC2ZK3BWH7
+    MARKETING_VERSION: 0.3.11
+    SWIFT_VERSION: 5.0
+packages:
+  Sentry:
+    url: https://github.com/getsentry/sentry-cocoa
+    exactVersion: 9.24.0
+targets:
+  CodexVoice:
+    type: application
+    platform: iOS
+    deploymentTarget: "18.0"
+    sources:
+      - path: CodexVoice
+        excludes:
+          - Info.plist
+      - path: App/CodexVoicePhone
+      - path: Shared
+      - path: ../Bridge/Sources/CodexVoiceProtocol
+    dependencies:
+      - target: CodexVoiceWatch
+        embed: true
+        copy:
+          destination: productsDirectory
+          subpath: "$(CONTENTS_FOLDER_PATH)/Watch"
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: false
+        INFOPLIST_FILE: CodexVoice/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CLANG_ENABLE_MODULES: true
+        ENABLE_USER_SCRIPT_SANDBOXING: false
+        PRODUCT_BUNDLE_IDENTIFIER: com.pedro.CodexVoice.watchkitapp
+        PRODUCT_NAME: Pedro Voice Agent
+        SKIP_INSTALL: false
+        SUPPORTS_MACCATALYST: false
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: false
+        TARGETED_DEVICE_FAMILY: 1
+    preBuildScripts:
+      - name: Bundle React Native code and images
+        basedOnDependencyAnalysis: false
+        script: |
+          if [[ -f "$PODS_ROOT/../.xcode.env" ]]; then
+            source "$PODS_ROOT/../.xcode.env"
+          fi
+          if [[ -f "$PODS_ROOT/../.xcode.env.local" ]]; then
+            source "$PODS_ROOT/../.xcode.env.local"
+          fi
+
+          export PROJECT_ROOT="$PROJECT_DIR"/..
+
+          if [[ "$CONFIGURATION" = *Debug* ]]; then
+            export SKIP_BUNDLING=1
+          fi
+          if [[ -z "$ENTRY_FILE" ]]; then
+            export ENTRY_FILE="$("$NODE_BINARY" -e "require('expo/scripts/resolveAppEntry')" "$PROJECT_ROOT" ios absolute | tail -n 1)"
+          fi
+          if [[ -z "$CLI_PATH" ]]; then
+            export CLI_PATH="$("$NODE_BINARY" --print "require.resolve('@expo/cli', { paths: [require.resolve('expo/package.json')] })")"
+          fi
+          if [[ -z "$BUNDLE_COMMAND" ]]; then
+            export BUNDLE_COMMAND="export:embed"
+          fi
+          if [[ -f "$PODS_ROOT/../.xcode.env.updates" ]]; then
+            source "$PODS_ROOT/../.xcode.env.updates"
+          fi
+
+          /bin/sh `"$NODE_BINARY" --print "require('path').dirname(require.resolve('@sentry/react-native/package.json')) + '/scripts/sentry-xcode.sh'"` `"$NODE_BINARY" --print "require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'"`
+    postBuildScripts:
+      - name: Upload Debug Symbols to Sentry
+        basedOnDependencyAnalysis: false
+        script: |
+          /bin/sh `${NODE_BINARY:-node} --print "require('path').dirname(require.resolve('@sentry/react-native/package.json')) + '/scripts/sentry-xcode-debug-files.sh'"`
+    scheme:
+      testTargets: []
+  CodexVoiceWatch:
+    type: application
+    platform: watchOS
+    deploymentTarget: "11.0"
+    dependencies:
+      - target: CodexVoiceComplication
+        embed: true
+      - package: Sentry
+        product: Sentry-WithoutUIKitOrAppKit
+    sources:
+      - path: App/CodexVoiceWatch
+      - path: Shared
+      - path: ../Bridge/Sources/CodexVoiceProtocol
+    settings:
+      base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        GENERATE_INFOPLIST_FILE: false
+        INFOPLIST_FILE: App/CodexVoiceWatch/Info.plist
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks"
+        PRODUCT_BUNDLE_IDENTIFIER: com.pedro.CodexVoice.watchkitapp.watchkitapp
+        PRODUCT_NAME: Pedro Voice Agent
+        SKIP_INSTALL: true
+        TARGETED_DEVICE_FAMILY: 4
+    scheme:
+      testTargets: []
+  CodexVoiceComplication:
+    type: app-extension
+    platform: watchOS
+    deploymentTarget: "11.0"
+    sources:
+      - path: App/CodexVoiceComplication
+    dependencies:
+      - package: Sentry
+        product: Sentry-WithoutUIKitOrAppKit
+    settings:
+      base:
+        APPLICATION_EXTENSION_API_ONLY: true
+        GENERATE_INFOPLIST_FILE: false
+        INFOPLIST_FILE: App/CodexVoiceComplication/Info.plist
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../../Frameworks"
+        PRODUCT_BUNDLE_IDENTIFIER: com.pedro.CodexVoice.watchkitapp.watchkitapp.CodexVoiceWidget
+        PRODUCT_NAME: Pedro Voice Agent Complication
+        SKIP_INSTALL: true
+        TARGETED_DEVICE_FAMILY: 4

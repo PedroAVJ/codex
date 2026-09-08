@@ -1,0 +1,26 @@
+{
+  "name": "codex",
+  "version": "0.8.21",
+  "description": "Use OpenAI Codex from Claude Code for coding, shared memory, image prompting, rescue, review, and the Codex Voice Apple Watch companion.",
+  "author": {
+    "name": "PedroAVJ",
+    "url": "https://github.com/PedroAVJ"
+  },
+  "homepage": "https://github.com/PedroAVJ/codex",
+  "repository": "https://github.com/PedroAVJ/codex",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "openai",
+    "coding-agent",
+    "cli",
+    "app-server",
+    "rescue",
+    "review",
+    "claude-code",
+    "apple-watch",
+    "voice",
+    "realtime"
+  ],
+  "skills": "./skills/"
+}

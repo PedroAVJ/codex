@@ -1,0 +1,1024 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		061692F838BC7B28B9210630 /* SecureBridgeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85221821CB0530B4D5A85943 /* SecureBridgeProtocol.swift */; };
+		0988517B2D622A396B1A2E2F /* CodexVoiceComplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = E598C7279C1AA2D8F86060C9 /* CodexVoiceComplication.swift */; };
+		09FFD6FC857614909A7CA714 /* RelayAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F12C88DCBEECDBBF3ECB23D /* RelayAssets.xcassets */; };
+		0D72D463B4B25864A26B50B8 /* WireEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DB25AEF833BCA4B19399B6 /* WireEnvelope.swift */; };
+		153BE7DFADB8D62FB6720F56 /* RelayAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F12C88DCBEECDBBF3ECB23D /* RelayAssets.xcassets */; };
+		18FDC4ED690B766BBCE5CAE3 /* Sentry-WithoutUIKitOrAppKit in Frameworks */ = {isa = PBXBuildFile; productRef = C753560ABEA843A718FAACAE /* Sentry-WithoutUIKitOrAppKit */; };
+		1C9A185DA80C42A0BA3B0AFE /* CodexVoiceNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F58C9054BFCE9CA3984F29 /* CodexVoiceNative.swift */; };
+		1F5684B3DD45D086DC374DBB /* BridgeConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD11D75F4D4C5B95B557EB9 /* BridgeConnection.swift */; };
+		207D40E122BE983DADD72BB1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B3637EDE57310D9301AC8A0 /* Assets.xcassets */; };
+		2D5EB5905650F98118FF66AB /* WatchAudioCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A50A92E37085B6272FD0686 /* WatchAudioCapture.swift */; };
+		3EEC5B9B937CD073E4DE80E6 /* FrameCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1981756F109DDB28E66097 /* FrameCodec.swift */; };
+		4796CAD95A2FCF4BD1FCB75B /* SecureBridgeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85221821CB0530B4D5A85943 /* SecureBridgeProtocol.swift */; };
+		5133FD81177F43872334B9B7 /* CodexTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D86D6CCD6C2EB7FD153AA15 /* CodexTheme.swift */; };
+		519190D6C8F7AC2155C11506 /* QRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFB6CDD6F95DED6F39B5E7B /* QRScannerView.swift */; };
+		544CF7CB864AA29995EBFCD1 /* AutomaticSpeechTurnDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF3DDF54D0720400BCD684F /* AutomaticSpeechTurnDetector.swift */; };
+		54AFBB0416C8422AF4904611 /* RealtimeAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD11EBC0D3C8E06AB4EDCDE6 /* RealtimeAudioPlayer.swift */; };
+		54E8B3F1D64541BDA6E9082E /* ComplicationTelemetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DB0BB58A425830CA60FB26 /* ComplicationTelemetry.swift */; };
+		58FBCD608C9FA15F45B974E6 /* WatchTelemetry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097E1DF793E02D2EEEBEAFB7 /* WatchTelemetry.swift */; };
+		5C8CF56BE0E8F2EC5D0CA27A /* BridgeConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD11D75F4D4C5B95B557EB9 /* BridgeConnection.swift */; };
+		6E5990144E8DAD80B2610AAF /* AutomaticSpeechTurnDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF3DDF54D0720400BCD684F /* AutomaticSpeechTurnDetector.swift */; };
+		779143BDAB05BB2FFB527242 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35BCE1B6F18F89C6BE1C6908 /* Expo.plist */; };
+		7B92ADB62CA65FB0AD30E70A /* CodexVoiceNative.m in Sources */ = {isa = PBXBuildFile; fileRef = 6729AB5594CACFD42890C0E6 /* CodexVoiceNative.m */; };
+		7D64A02D7039A13586E734CB /* Sentry-WithoutUIKitOrAppKit in Frameworks */ = {isa = PBXBuildFile; productRef = D25BE3DA10D9CED31777539E /* Sentry-WithoutUIKitOrAppKit */; };
+		82B24B651F91FE3A312679DD /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5F04D93395ABD586C0B2C83 /* ExpoModulesProvider.swift */; };
+		8BCEB7B1A3DA0B420759A6E6 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3247C55EAACFBF4C782DE04B /* PrivacyInfo.xcprivacy */; };
+		986780F3FBE2DB09D48082BC /* PairingKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9485C3A2ADD681733D9A2CD /* PairingKeychain.swift */; };
+		9DB1D00CF90630A89FCFFA3F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E21B9816D1631764B395954 /* Assets.xcassets */; };
+		A37C5C86EB179FD40D7C1BFC /* WireEnvelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42DB25AEF833BCA4B19399B6 /* WireEnvelope.swift */; };
+		B23F967449C0F93710248F1E /* libPods-CodexVoice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FB350A31B7C43943A181758C /* libPods-CodexVoice.a */; };
+		B542BCBDB98B7D9FA1687450 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB106A5C43EFF789598DB07 /* AppDelegate.swift */; };
+		BC94E79C67B8B7691C72EEA2 /* WatchPairingReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040707AEE04D44F545CD38C5 /* WatchPairingReceiver.swift */; };
+		C44A382AFA927174E8182C36 /* CodexVoiceWatch.app in Embed Dependencies */ = {isa = PBXBuildFile; fileRef = 64DDD5BA180753407E733096 /* CodexVoiceWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C98FC918877B1FA46839F65E /* CompanionContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00D501E7A67E148FEB20F12 /* CompanionContentView.swift */; };
+		C9E259617345E7986732A967 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F62430E1D6B9508AAEE269 /* ContentView.swift */; };
+		D4468EE217EE07DFB4974393 /* PairingKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9485C3A2ADD681733D9A2CD /* PairingKeychain.swift */; };
+		D9A9E8F310E4B66EF5BB8937 /* CompanionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4B05EB29428D49A5BD8792 /* CompanionModel.swift */; };
+		E76310FDD9B5571FDC944513 /* PhonePairingTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FB216B67E6BC1C2568FECE1 /* PhonePairingTransfer.swift */; };
+		E7EDEBE2356C48601EC76211 /* CodexTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D86D6CCD6C2EB7FD153AA15 /* CodexTheme.swift */; };
+		EB4E72A1CE15E03F8EE82C84 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3247C55EAACFBF4C782DE04B /* PrivacyInfo.xcprivacy */; };
+		EE2CBC9F81E3CCBE9D02A055 /* PairingQRCodeDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E51AC27B9FC7CFC8DB88D0 /* PairingQRCodeDecoder.swift */; };
+		EF7CBE4407B79DEEB904663D /* FrameCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1981756F109DDB28E66097 /* FrameCodec.swift */; };
+		F0E79C23F530C56B237C4661 /* PairingQRCodeDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E51AC27B9FC7CFC8DB88D0 /* PairingQRCodeDecoder.swift */; };
+		F7533BBD17FD3E99D2B5139E /* CodexVoiceWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90BB91ED054F601D24544900 /* CodexVoiceWatchApp.swift */; };
+		F9F6F632CC8CC636643DDCC9 /* VoiceSessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBF33249EDCCFC244F8836B /* VoiceSessionModel.swift */; };
+		FC4E253ADA102048D587B07E /* CodexVoiceComplication.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C23401AC97219D8EB0E98E59 /* CodexVoiceComplication.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D851E3022870A6D6B8C469FD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9D7B7308B4699BEB341DA42 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 75A7AE8EDDBE48471272C82F;
+			remoteInfo = CodexVoiceWatch;
+		};
+		E0058810C0660004E6686CAC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9D7B7308B4699BEB341DA42 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 69E1C794EDE984D416D66A93;
+			remoteInfo = CodexVoiceComplication;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2538A47A626CB8DB525A51C5 /* Embed Dependencies */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				C44A382AFA927174E8182C36 /* CodexVoiceWatch.app in Embed Dependencies */,
+			);
+			name = "Embed Dependencies";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C85482876C679AB113B2DD38 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				FC4E253ADA102048D587B07E /* CodexVoiceComplication.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		040707AEE04D44F545CD38C5 /* WatchPairingReceiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchPairingReceiver.swift; sourceTree = "<group>"; };
+		097E1DF793E02D2EEEBEAFB7 /* WatchTelemetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTelemetry.swift; sourceTree = "<group>"; };
+		0E1981756F109DDB28E66097 /* FrameCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameCodec.swift; sourceTree = "<group>"; };
+		0F616BF8251F6FA2ACB1E338 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1D86D6CCD6C2EB7FD153AA15 /* CodexTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodexTheme.swift; sourceTree = "<group>"; };
+		28E51AC27B9FC7CFC8DB88D0 /* PairingQRCodeDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingQRCodeDecoder.swift; sourceTree = "<group>"; };
+		2BF3DDF54D0720400BCD684F /* AutomaticSpeechTurnDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomaticSpeechTurnDetector.swift; sourceTree = "<group>"; };
+		2F12C88DCBEECDBBF3ECB23D /* RelayAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = RelayAssets.xcassets; sourceTree = "<group>"; };
+		3247C55EAACFBF4C782DE04B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = ../PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		35BCE1B6F18F89C6BE1C6908 /* Expo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Expo.plist; sourceTree = "<group>"; };
+		3A50A92E37085B6272FD0686 /* WatchAudioCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAudioCapture.swift; sourceTree = "<group>"; };
+		42DB25AEF833BCA4B19399B6 /* WireEnvelope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WireEnvelope.swift; sourceTree = "<group>"; };
+		49F58C9054BFCE9CA3984F29 /* CodexVoiceNative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodexVoiceNative.swift; sourceTree = "<group>"; };
+		64DDD5BA180753407E733096 /* CodexVoiceWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodexVoiceWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6729AB5594CACFD42890C0E6 /* CodexVoiceNative.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CodexVoiceNative.m; sourceTree = "<group>"; };
+		6B3637EDE57310D9301AC8A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7E21B9816D1631764B395954 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7FB216B67E6BC1C2568FECE1 /* PhonePairingTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhonePairingTransfer.swift; sourceTree = "<group>"; };
+		85221821CB0530B4D5A85943 /* SecureBridgeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureBridgeProtocol.swift; sourceTree = "<group>"; };
+		87FACEEF047E5F10A97E8271 /* CodexVoice.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CodexVoice.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		90BB91ED054F601D24544900 /* CodexVoiceWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodexVoiceWatchApp.swift; sourceTree = "<group>"; };
+		9CBF33249EDCCFC244F8836B /* VoiceSessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceSessionModel.swift; sourceTree = "<group>"; };
+		A00D501E7A67E148FEB20F12 /* CompanionContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionContentView.swift; sourceTree = "<group>"; };
+		B9BB2705B92EB626F9DADCC7 /* Pods-CodexVoice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodexVoice.release.xcconfig"; path = "Target Support Files/Pods-CodexVoice/Pods-CodexVoice.release.xcconfig"; sourceTree = "<group>"; };
+		BBD11D75F4D4C5B95B557EB9 /* BridgeConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeConnection.swift; sourceTree = "<group>"; };
+		BCFB6CDD6F95DED6F39B5E7B /* QRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerView.swift; sourceTree = "<group>"; };
+		C23401AC97219D8EB0E98E59 /* CodexVoiceComplication.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CodexVoiceComplication.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9485C3A2ADD681733D9A2CD /* PairingKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingKeychain.swift; sourceTree = "<group>"; };
+		CD11EBC0D3C8E06AB4EDCDE6 /* RealtimeAudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeAudioPlayer.swift; sourceTree = "<group>"; };
+		D46EB59457493269558FECEA /* Pods-CodexVoice.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CodexVoice.debug.xcconfig"; path = "Target Support Files/Pods-CodexVoice/Pods-CodexVoice.debug.xcconfig"; sourceTree = "<group>"; };
+		DC4B05EB29428D49A5BD8792 /* CompanionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionModel.swift; sourceTree = "<group>"; };
+		E598C7279C1AA2D8F86060C9 /* CodexVoiceComplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodexVoiceComplication.swift; sourceTree = "<group>"; };
+		EE677A39158FCB2B78CB9FF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		EFB106A5C43EFF789598DB07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F1DB0BB58A425830CA60FB26 /* ComplicationTelemetry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationTelemetry.swift; sourceTree = "<group>"; };
+		F3F62430E1D6B9508AAEE269 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F5F04D93395ABD586C0B2C83 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-CodexVoice/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		FB350A31B7C43943A181758C /* libPods-CodexVoice.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CodexVoice.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1EB956CD140F8E9B0229865D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B23F967449C0F93710248F1E /* libPods-CodexVoice.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47E084914FDE7FE588D208DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7D64A02D7039A13586E734CB /* Sentry-WithoutUIKitOrAppKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DFF1755E7102B04139A1F7FE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18FDC4ED690B766BBCE5CAE3 /* Sentry-WithoutUIKitOrAppKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0BFDC8F735F64BB0B0B0395A /* Supporting */ = {
+			isa = PBXGroup;
+			children = (
+				35BCE1B6F18F89C6BE1C6908 /* Expo.plist */,
+			);
+			path = Supporting;
+			sourceTree = "<group>";
+		};
+		0F2FF4EC4271CB152CB588AA /* CodexVoice */ = {
+			isa = PBXGroup;
+			children = (
+				EFB106A5C43EFF789598DB07 /* AppDelegate.swift */,
+				0BFDC8F735F64BB0B0B0395A /* Supporting */,
+				3247C55EAACFBF4C782DE04B /* PrivacyInfo.xcprivacy */,
+			);
+			path = CodexVoice;
+			sourceTree = "<group>";
+		};
+		2BF7BFC815D2AC4A265DB570 /* CodexVoiceProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				2BF3DDF54D0720400BCD684F /* AutomaticSpeechTurnDetector.swift */,
+				0E1981756F109DDB28E66097 /* FrameCodec.swift */,
+				28E51AC27B9FC7CFC8DB88D0 /* PairingQRCodeDecoder.swift */,
+				85221821CB0530B4D5A85943 /* SecureBridgeProtocol.swift */,
+				42DB25AEF833BCA4B19399B6 /* WireEnvelope.swift */,
+			);
+			path = CodexVoiceProtocol;
+			sourceTree = "<group>";
+		};
+		2EFEC802ED7F0B24B3E2F7BE /* codex-voice */ = {
+			isa = PBXGroup;
+			children = (
+				3F9DDBFA6AB032D43C53584D /* Bridge */,
+			);
+			name = "codex-voice";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		311BB111C1E55C10FB02EEA3 /* CodexVoiceComplication */ = {
+			isa = PBXGroup;
+			children = (
+				E598C7279C1AA2D8F86060C9 /* CodexVoiceComplication.swift */,
+				F1DB0BB58A425830CA60FB26 /* ComplicationTelemetry.swift */,
+				0F616BF8251F6FA2ACB1E338 /* Info.plist */,
+			);
+			path = CodexVoiceComplication;
+			sourceTree = "<group>";
+		};
+		3581A7D68A2AFA7885174DA1 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				311BB111C1E55C10FB02EEA3 /* CodexVoiceComplication */,
+				B97C2290655A0BD7C7A0849F /* CodexVoicePhone */,
+				82B29B8FCFC0F9753193A568 /* CodexVoiceWatch */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		3F9DDBFA6AB032D43C53584D /* Bridge */ = {
+			isa = PBXGroup;
+			children = (
+				EB35C38CA52E66C90B70B28F /* Sources */,
+			);
+			path = Bridge;
+			sourceTree = "<group>";
+		};
+		50D2E848F95EECE9AED73FD6 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				BBD11D75F4D4C5B95B557EB9 /* BridgeConnection.swift */,
+				2F12C88DCBEECDBBF3ECB23D /* RelayAssets.xcassets */,
+				1D86D6CCD6C2EB7FD153AA15 /* CodexTheme.swift */,
+				C9485C3A2ADD681733D9A2CD /* PairingKeychain.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		6C9D06242DE5084B56419F74 = {
+			isa = PBXGroup;
+			children = (
+				3581A7D68A2AFA7885174DA1 /* App */,
+				2EFEC802ED7F0B24B3E2F7BE /* codex-voice */,
+				0F2FF4EC4271CB152CB588AA /* CodexVoice */,
+				50D2E848F95EECE9AED73FD6 /* Shared */,
+				C678D6B82894FD869C2DC71D /* Products */,
+				C98BA9E398C030EF3FE6EEB2 /* Pods */,
+				AA37FEA29E00D5A64811056F /* Frameworks */,
+				CD513FE32D787FA7F66DC05E /* ExpoModulesProviders */,
+			);
+			sourceTree = "<group>";
+		};
+		82B29B8FCFC0F9753193A568 /* CodexVoiceWatch */ = {
+			isa = PBXGroup;
+			children = (
+				6B3637EDE57310D9301AC8A0 /* Assets.xcassets */,
+				90BB91ED054F601D24544900 /* CodexVoiceWatchApp.swift */,
+				F3F62430E1D6B9508AAEE269 /* ContentView.swift */,
+				EE677A39158FCB2B78CB9FF4 /* Info.plist */,
+				CD11EBC0D3C8E06AB4EDCDE6 /* RealtimeAudioPlayer.swift */,
+				9CBF33249EDCCFC244F8836B /* VoiceSessionModel.swift */,
+				3A50A92E37085B6272FD0686 /* WatchAudioCapture.swift */,
+				040707AEE04D44F545CD38C5 /* WatchPairingReceiver.swift */,
+				097E1DF793E02D2EEEBEAFB7 /* WatchTelemetry.swift */,
+			);
+			path = CodexVoiceWatch;
+			sourceTree = "<group>";
+		};
+		AA37FEA29E00D5A64811056F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FB350A31B7C43943A181758C /* libPods-CodexVoice.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B97C2290655A0BD7C7A0849F /* CodexVoicePhone */ = {
+			isa = PBXGroup;
+			children = (
+				7E21B9816D1631764B395954 /* Assets.xcassets */,
+				6729AB5594CACFD42890C0E6 /* CodexVoiceNative.m */,
+				49F58C9054BFCE9CA3984F29 /* CodexVoiceNative.swift */,
+				A00D501E7A67E148FEB20F12 /* CompanionContentView.swift */,
+				DC4B05EB29428D49A5BD8792 /* CompanionModel.swift */,
+				7FB216B67E6BC1C2568FECE1 /* PhonePairingTransfer.swift */,
+				BCFB6CDD6F95DED6F39B5E7B /* QRScannerView.swift */,
+			);
+			path = CodexVoicePhone;
+			sourceTree = "<group>";
+		};
+		C678D6B82894FD869C2DC71D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				87FACEEF047E5F10A97E8271 /* CodexVoice.app */,
+				C23401AC97219D8EB0E98E59 /* CodexVoiceComplication.appex */,
+				64DDD5BA180753407E733096 /* CodexVoiceWatch.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C98BA9E398C030EF3FE6EEB2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D46EB59457493269558FECEA /* Pods-CodexVoice.debug.xcconfig */,
+				B9BB2705B92EB626F9DADCC7 /* Pods-CodexVoice.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		CD513FE32D787FA7F66DC05E /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				F6AC95091691C0163C7DA1FC /* CodexVoice */,
+			);
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
+		EB35C38CA52E66C90B70B28F /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				2BF7BFC815D2AC4A265DB570 /* CodexVoiceProtocol */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		F6AC95091691C0163C7DA1FC /* CodexVoice */ = {
+			isa = PBXGroup;
+			children = (
+				F5F04D93395ABD586C0B2C83 /* ExpoModulesProvider.swift */,
+			);
+			name = CodexVoice;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		69E1C794EDE984D416D66A93 /* CodexVoiceComplication */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CCAC626C5B1780C88E914783 /* Build configuration list for PBXNativeTarget "CodexVoiceComplication" */;
+			buildPhases = (
+				BFF6CB02B795A43C43142D6C /* Sources */,
+				DFF1755E7102B04139A1F7FE /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CodexVoiceComplication;
+			packageProductDependencies = (
+				C753560ABEA843A718FAACAE /* Sentry-WithoutUIKitOrAppKit */,
+			);
+			productName = CodexVoiceComplication;
+			productReference = C23401AC97219D8EB0E98E59 /* CodexVoiceComplication.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		75A7AE8EDDBE48471272C82F /* CodexVoiceWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D69D48C6F386641A2A09A484 /* Build configuration list for PBXNativeTarget "CodexVoiceWatch" */;
+			buildPhases = (
+				6B92EA794F840B4264700CAF /* Sources */,
+				4EA0C18DC70F0E3ACA204EDD /* Resources */,
+				47E084914FDE7FE588D208DF /* Frameworks */,
+				C85482876C679AB113B2DD38 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5E53D0808C3D6DBA0CDB18BE /* PBXTargetDependency */,
+			);
+			name = CodexVoiceWatch;
+			packageProductDependencies = (
+				D25BE3DA10D9CED31777539E /* Sentry-WithoutUIKitOrAppKit */,
+			);
+			productName = CodexVoiceWatch;
+			productReference = 64DDD5BA180753407E733096 /* CodexVoiceWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C4747F45474D470A14630FDC /* CodexVoice */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 64DA6A4FF86C477C48A7A22A /* Build configuration list for PBXNativeTarget "CodexVoice" */;
+			buildPhases = (
+				50BC5DB2FFCA3AF0EC62E589 /* [CP] Check Pods Manifest.lock */,
+				3B1DF0374ED152B83F0293BE /* Bundle React Native code and images */,
+				F4DE242AEBB94D83ADC4AE7A /* [Expo] Configure project */,
+				B250C7B97DA9F0A3748E051A /* Sources */,
+				9AA59AD09A325A4913805011 /* Resources */,
+				2538A47A626CB8DB525A51C5 /* Embed Dependencies */,
+				1943C7FF02D584594E5526E5 /* Upload Debug Symbols to Sentry */,
+				1EB956CD140F8E9B0229865D /* Frameworks */,
+				6806621E4FA89FF1A6441A33 /* [CP] Embed Pods Frameworks */,
+				08F1A6BEEAB2531DAC0F5591 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				86BD07D22602B6392A92E519 /* PBXTargetDependency */,
+			);
+			name = CodexVoice;
+			productName = CodexVoice;
+			productReference = 87FACEEF047E5F10A97E8271 /* CodexVoice.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E9D7B7308B4699BEB341DA42 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					69E1C794EDE984D416D66A93 = {
+						DevelopmentTeam = KC2ZK3BWH7;
+						ProvisioningStyle = Automatic;
+					};
+					75A7AE8EDDBE48471272C82F = {
+						DevelopmentTeam = KC2ZK3BWH7;
+						ProvisioningStyle = Automatic;
+					};
+					C4747F45474D470A14630FDC = {
+						DevelopmentTeam = KC2ZK3BWH7;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 07C63120F9E9D818A111C265 /* Build configuration list for PBXProject "CodexVoice" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 6C9D06242DE5084B56419F74;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				840D4E06A8099BE9C68771B1 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = C678D6B82894FD869C2DC71D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C4747F45474D470A14630FDC /* CodexVoice */,
+				75A7AE8EDDBE48471272C82F /* CodexVoiceWatch */,
+				69E1C794EDE984D416D66A93 /* CodexVoiceComplication */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4EA0C18DC70F0E3ACA204EDD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				207D40E122BE983DADD72BB1 /* Assets.xcassets in Resources */,
+				153BE7DFADB8D62FB6720F56 /* RelayAssets.xcassets in Resources */,
+				8BCEB7B1A3DA0B420759A6E6 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9AA59AD09A325A4913805011 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9DB1D00CF90630A89FCFFA3F /* Assets.xcassets in Resources */,
+				09FFD6FC857614909A7CA714 /* RelayAssets.xcassets in Resources */,
+				779143BDAB05BB2FFB527242 /* Expo.plist in Resources */,
+				EB4E72A1CE15E03F8EE82C84 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		08F1A6BEEAB2531DAC0F5591 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CodexVoice/Pods-CodexVoice-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CodexVoice/Pods-CodexVoice-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CodexVoice/Pods-CodexVoice-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1943C7FF02D584594E5526E5 /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Upload Debug Symbols to Sentry";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/bin/sh `${NODE_BINARY:-node} --print \"require('path').dirname(require.resolve('@sentry/react-native/package.json')) + '/scripts/sentry-xcode-debug-files.sh'\"`\n";
+		};
+		3B1DF0374ED152B83F0293BE /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\nif [[ -z \"$ENTRY_FILE\" ]]; then\n  export ENTRY_FILE=\"$(\"$NODE_BINARY\" -e \"require('expo/scripts/resolveAppEntry')\" \"$PROJECT_ROOT\" ios absolute | tail -n 1)\"\nfi\nif [[ -z \"$CLI_PATH\" ]]; then\n  export CLI_PATH=\"$(\"$NODE_BINARY\" --print \"require.resolve('@expo/cli', { paths: [require.resolve('expo/package.json')] })\")\"\nfi\nif [[ -z \"$BUNDLE_COMMAND\" ]]; then\n  export BUNDLE_COMMAND=\"export:embed\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.updates\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.updates\"\nfi\n\n/bin/sh `\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('@sentry/react-native/package.json')) + '/scripts/sentry-xcode.sh'\"` `\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n";
+		};
+		50BC5DB2FFCA3AF0EC62E589 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CodexVoice-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6806621E4FA89FF1A6441A33 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CodexVoice/Pods-CodexVoice-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CodexVoice/Pods-CodexVoice-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CodexVoice/Pods-CodexVoice-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F4DE242AEBB94D83ADC4AE7A /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env",
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-CodexVoice/expo-configure-project.sh",
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/Pods/Target Support Files/Pods-CodexVoice/ExpoModulesProvider.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-CodexVoice/expo-configure-project.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6B92EA794F840B4264700CAF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				544CF7CB864AA29995EBFCD1 /* AutomaticSpeechTurnDetector.swift in Sources */,
+				5C8CF56BE0E8F2EC5D0CA27A /* BridgeConnection.swift in Sources */,
+				E7EDEBE2356C48601EC76211 /* CodexTheme.swift in Sources */,
+				F7533BBD17FD3E99D2B5139E /* CodexVoiceWatchApp.swift in Sources */,
+				C9E259617345E7986732A967 /* ContentView.swift in Sources */,
+				3EEC5B9B937CD073E4DE80E6 /* FrameCodec.swift in Sources */,
+				986780F3FBE2DB09D48082BC /* PairingKeychain.swift in Sources */,
+				F0E79C23F530C56B237C4661 /* PairingQRCodeDecoder.swift in Sources */,
+				54AFBB0416C8422AF4904611 /* RealtimeAudioPlayer.swift in Sources */,
+				4796CAD95A2FCF4BD1FCB75B /* SecureBridgeProtocol.swift in Sources */,
+				F9F6F632CC8CC636643DDCC9 /* VoiceSessionModel.swift in Sources */,
+				2D5EB5905650F98118FF66AB /* WatchAudioCapture.swift in Sources */,
+				BC94E79C67B8B7691C72EEA2 /* WatchPairingReceiver.swift in Sources */,
+				58FBCD608C9FA15F45B974E6 /* WatchTelemetry.swift in Sources */,
+				0D72D463B4B25864A26B50B8 /* WireEnvelope.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B250C7B97DA9F0A3748E051A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B542BCBDB98B7D9FA1687450 /* AppDelegate.swift in Sources */,
+				6E5990144E8DAD80B2610AAF /* AutomaticSpeechTurnDetector.swift in Sources */,
+				1F5684B3DD45D086DC374DBB /* BridgeConnection.swift in Sources */,
+				5133FD81177F43872334B9B7 /* CodexTheme.swift in Sources */,
+				7B92ADB62CA65FB0AD30E70A /* CodexVoiceNative.m in Sources */,
+				1C9A185DA80C42A0BA3B0AFE /* CodexVoiceNative.swift in Sources */,
+				C98FC918877B1FA46839F65E /* CompanionContentView.swift in Sources */,
+				D9A9E8F310E4B66EF5BB8937 /* CompanionModel.swift in Sources */,
+				EF7CBE4407B79DEEB904663D /* FrameCodec.swift in Sources */,
+				D4468EE217EE07DFB4974393 /* PairingKeychain.swift in Sources */,
+				EE2CBC9F81E3CCBE9D02A055 /* PairingQRCodeDecoder.swift in Sources */,
+				E76310FDD9B5571FDC944513 /* PhonePairingTransfer.swift in Sources */,
+				519190D6C8F7AC2155C11506 /* QRScannerView.swift in Sources */,
+				061692F838BC7B28B9210630 /* SecureBridgeProtocol.swift in Sources */,
+				A37C5C86EB179FD40D7C1BFC /* WireEnvelope.swift in Sources */,
+				82B24B651F91FE3A312679DD /* ExpoModulesProvider.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFF6CB02B795A43C43142D6C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0988517B2D622A396B1A2E2F /* CodexVoiceComplication.swift in Sources */,
+				54E8B3F1D64541BDA6E9082E /* ComplicationTelemetry.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5E53D0808C3D6DBA0CDB18BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 69E1C794EDE984D416D66A93 /* CodexVoiceComplication */;
+			targetProxy = E0058810C0660004E6686CAC /* PBXContainerItemProxy */;
+		};
+		86BD07D22602B6392A92E519 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 75A7AE8EDDBE48471272C82F /* CodexVoiceWatch */;
+			targetProxy = D851E3022870A6D6B8C469FD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		217D548DF5F43C6F2EF7CDDF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D46EB59457493269558FECEA /* Pods-CodexVoice.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CodexVoice/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pedro.CodexVoice.watchkitapp;
+				PRODUCT_NAME = "Pedro Voice Agent";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		3B7BECAE825C8C8DE506B9A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B9BB2705B92EB626F9DADCC7 /* Pods-CodexVoice.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CodexVoice/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pedro.CodexVoice.watchkitapp;
+				PRODUCT_NAME = "Pedro Voice Agent";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		7580A28BBF0AA94A92ADA834 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/CodexVoiceWatch/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pedro.CodexVoice.watchkitapp.watchkitapp;
+				PRODUCT_NAME = "Pedro Voice Agent";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Release;
+		};
+		9A53B98A24C2D85D88769547 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/CodexVoiceComplication/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../../Frameworks",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pedro.CodexVoice.watchkitapp.watchkitapp.CodexVoiceWidget;
+				PRODUCT_NAME = "Pedro Voice Agent Complication";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Debug;
+		};
+		9E9CD20B4DE27FE02B4BA373 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/CodexVoiceComplication/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../../Frameworks",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pedro.CodexVoice.watchkitapp.watchkitapp.CodexVoiceWidget;
+				PRODUCT_NAME = "Pedro Voice Agent Complication";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Release;
+		};
+		BBEED0256BB6EC20D42E121A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 26;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = KC2ZK3BWH7;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 0.3.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				PODFILE_DIR = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				USE_HERMES = true;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Release;
+		};
+		F5707101310DDB0E479662D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = App/CodexVoiceWatch/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = com.pedro.CodexVoice.watchkitapp.watchkitapp;
+				PRODUCT_NAME = "Pedro Voice Agent";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Debug;
+		};
+		FEDC3704C94DC101866E7044 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 26;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = KC2ZK3BWH7;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 0.3.11;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				PODFILE_DIR = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				USE_HERMES = true;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		07C63120F9E9D818A111C265 /* Build configuration list for PBXProject "CodexVoice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEDC3704C94DC101866E7044 /* Debug */,
+				BBEED0256BB6EC20D42E121A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		64DA6A4FF86C477C48A7A22A /* Build configuration list for PBXNativeTarget "CodexVoice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				217D548DF5F43C6F2EF7CDDF /* Debug */,
+				3B7BECAE825C8C8DE506B9A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CCAC626C5B1780C88E914783 /* Build configuration list for PBXNativeTarget "CodexVoiceComplication" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A53B98A24C2D85D88769547 /* Debug */,
+				9E9CD20B4DE27FE02B4BA373 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D69D48C6F386641A2A09A484 /* Build configuration list for PBXNativeTarget "CodexVoiceWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F5707101310DDB0E479662D5 /* Debug */,
+				7580A28BBF0AA94A92ADA834 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		840D4E06A8099BE9C68771B1 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa";
+			requirement = {
+				kind = exactVersion;
+				version = 9.24.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C753560ABEA843A718FAACAE /* Sentry-WithoutUIKitOrAppKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 840D4E06A8099BE9C68771B1 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = "Sentry-WithoutUIKitOrAppKit";
+		};
+		D25BE3DA10D9CED31777539E /* Sentry-WithoutUIKitOrAppKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 840D4E06A8099BE9C68771B1 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = "Sentry-WithoutUIKitOrAppKit";
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = E9D7B7308B4699BEB341DA42 /* Project object */;
+}

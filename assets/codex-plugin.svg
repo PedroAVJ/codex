@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Coding integration icon">
+<rect width="256" height="256" rx="56" fill="#203B64"/>
+<rect x="44" y="57" width="168" height="142" rx="18" fill="none" stroke="white" stroke-width="10"/>
+<path d="m76 101 30 27-30 27M129 157h44" fill="none" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
