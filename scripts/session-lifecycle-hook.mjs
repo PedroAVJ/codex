@@ -14,7 +14,7 @@ import {
   teardownBrokerSession
 } from "./lib/broker-lifecycle.mjs";
 import { loadState, resolveStateFile, saveState } from "./lib/state.mjs";
-import { resolveWorkspaceRoot } from "./lib/workspace.mjs";
+import { resolveTaskWorkspace, resolveWorkspaceRoot } from "./lib/workspace.mjs";
 import { buildClaudeMemoryContext } from "./lib/memory.mjs";
 
 export const SESSION_ID_ENV = "CODEX_COMPANION_SESSION_ID";
@@ -51,12 +51,12 @@ function cleanupSessionJobs(cwd, sessionId) {
   }
 
   const state = loadState(workspaceRoot);
-  const removedJobs = state.jobs.filter((job) => job.sessionId === sessionId);
-  if (removedJobs.length === 0) {
+  const sessionJobs = state.jobs.filter((job) => job.sessionId === sessionId);
+  if (sessionJobs.length === 0) {
     return;
   }
 
-  for (const job of removedJobs) {
+  for (const job of sessionJobs) {
     const stillRunning = job.status === "queued" || job.status === "running";
     if (!stillRunning) {
       continue;
@@ -70,7 +70,13 @@ function cleanupSessionJobs(cwd, sessionId) {
 
   saveState(workspaceRoot, {
     ...state,
-    jobs: state.jobs.filter((job) => job.sessionId !== sessionId)
+    // Completed durable tasks remain resumable when this Claude session is
+    // reopened. saveState still prunes old history and removes transient job files.
+    jobs: state.jobs.filter((job) =>
+      job.sessionId !== sessionId ||
+      (job.jobClass === "task" && job.threadId &&
+        (job.status === "completed" || job.status === "failed"))
+    )
   });
 }
 
@@ -96,35 +102,35 @@ function emitAdditionalContext(eventName, additionalContext) {
 
 async function handleSessionEnd(input) {
   const cwd = input.cwd || process.cwd();
-  const brokerSession =
-    loadBrokerSession(cwd) ??
-    (process.env[BROKER_ENDPOINT_ENV]
-      ? {
-          endpoint: process.env[BROKER_ENDPOINT_ENV],
-          pidFile: process.env[PID_FILE_ENV] ?? null,
-          logFile: process.env[LOG_FILE_ENV] ?? null
-        }
-      : null);
-  const brokerEndpoint = brokerSession?.endpoint ?? null;
-  const pidFile = brokerSession?.pidFile ?? null;
-  const logFile = brokerSession?.logFile ?? null;
-  const sessionDir = brokerSession?.sessionDir ?? null;
-  const pid = brokerSession?.pid ?? null;
-
-  if (brokerEndpoint) {
-    await sendBrokerShutdown(brokerEndpoint);
-  }
-
-  cleanupSessionJobs(cwd, input.session_id || process.env[SESSION_ID_ENV]);
-  teardownBrokerSession({
-    endpoint: brokerEndpoint,
-    pidFile,
-    logFile,
-    sessionDir,
-    pid,
-    killProcess: terminateProcessTree
+  const sessionId = input.session_id || process.env[SESSION_ID_ENV];
+  const runtimeCwd = resolveTaskWorkspace(cwd, {
+    create: false,
+    env: { ...process.env, [SESSION_ID_ENV]: sessionId ?? "" }
   });
-  clearBrokerSession(cwd);
+  const brokerWorkspaces = [...new Set([cwd, runtimeCwd])];
+  const closedEndpoints = new Set();
+
+  cleanupSessionJobs(cwd, sessionId);
+  for (const workspace of brokerWorkspaces) {
+    const brokerSession = loadBrokerSession(workspace) ??
+      (workspace === cwd && process.env[BROKER_ENDPOINT_ENV]
+        ? {
+            endpoint: process.env[BROKER_ENDPOINT_ENV],
+            pidFile: process.env[PID_FILE_ENV] ?? null,
+            logFile: process.env[LOG_FILE_ENV] ?? null
+          }
+        : null);
+    const endpoint = brokerSession?.endpoint ?? null;
+    if (endpoint && !closedEndpoints.has(endpoint)) {
+      await sendBrokerShutdown(endpoint);
+      closedEndpoints.add(endpoint);
+      teardownBrokerSession({
+        ...brokerSession,
+        killProcess: terminateProcessTree
+      });
+    }
+    clearBrokerSession(workspace);
+  }
 }
 
 async function main() {

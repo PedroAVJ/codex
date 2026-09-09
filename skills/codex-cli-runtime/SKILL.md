@@ -18,10 +18,12 @@ Execution rules:
 - Use `task` for every rescue request, including diagnosis, planning, research, and explicit fix requests.
 - You may use the `gpt-5-5-prompting` skill to rewrite the user's request into a tighter Codex prompt before the single `task` call.
 - That prompt drafting is the only Claude-side work allowed. Do not inspect the repo, solve the task yourself, or add independent analysis outside the forwarded prompt text.
+- Pass `--cwd "<task directory>"` when the request identifies a concrete repository or task workspace. Never substitute a broad home, Desktop, or Developer folder for the selected repository. Without an explicit task directory, the helper isolates general tasks started from those broad folders.
+- Helper threads are archived after completion (including failed turns) and remain resumable through the stored job identity.
 - Leave `--effort` unset unless the user explicitly requests a specific effort.
 - Leave model unset by default. Add `--model` only when the user explicitly asks for one.
 - Map `spark` to `--model gpt-5.3-codex-spark`.
-- Default to a write-capable Codex run by adding `--write` unless the user explicitly asks for read-only behavior or only wants review, diagnosis, or research without edits.
+- Default to a write-capable Codex run by adding `--write` unless the user explicitly asks for read-only behavior or only wants review, diagnosis, or research without edits. `--write` uses the user's saved Codex permissions; it does not grant broader access or force a workspace-only sandbox.
 
 Command selection:
 - Use exactly one `task` invocation per rescue handoff.
@@ -40,4 +42,4 @@ Safety rules:
 - Preserve the user's task text as-is apart from stripping routing flags.
 - Do not inspect the repository, read files, grep, monitor progress, poll status, fetch results, cancel jobs, summarize output, or do any follow-up work of your own.
 - Return the stdout of the `task` command exactly as-is.
-- If the Bash call fails or Codex cannot be invoked, return nothing.
+- If the Bash call fails or Codex cannot be invoked, return the helper's error output verbatim so the caller can explain the failure. Never hide a failed handoff with an empty response.

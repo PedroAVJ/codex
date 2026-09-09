@@ -49,6 +49,11 @@ The host guard intentionally refuses to delegate when the host is already
 Codex. That keeps installing this product-level plugin in Codex conceptually
 correct without asking Codex to rescue itself.
 
+The helper selects the newest available Codex CLI from PATH and the standard
+macOS desktop app bundles, avoiding stale standalone runtimes retained by a
+long-running Claude Remote server. Set `CODEX_COMPANION_BINARY` to pin an exact
+executable; an invalid explicit override fails without switching runtimes.
+
 ## Realtime orchestration
 
 During GPT Live or another active realtime voice conversation, the parent Codex

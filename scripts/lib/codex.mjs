@@ -37,6 +37,7 @@
 import { readJsonFile } from "./fs.mjs";
 import { BROKER_BUSY_RPC_CODE, BROKER_ENDPOINT_ENV, CodexAppServerClient } from "./app-server.mjs";
 import { loadBrokerSession } from "./broker-lifecycle.mjs";
+import { resolveCodexBinary } from "./codex-binary.mjs";
 import { binaryAvailable } from "./process.mjs";
 
 const SERVICE_NAME = "claude_code_codex_plugin";
@@ -57,8 +58,11 @@ function buildThreadParams(cwd, options = {}) {
   return {
     cwd,
     model: options.model ?? null,
-    approvalPolicy: options.approvalPolicy ?? "never",
-    sandbox: options.sandbox ?? "read-only",
+    // A null sandbox explicitly inherits the user's configured permissions.
+    ...(options.sandbox === null ? {} : {
+      approvalPolicy: options.approvalPolicy ?? "never",
+      sandbox: options.sandbox ?? "read-only"
+    }),
     serviceName: SERVICE_NAME,
     ephemeral: options.ephemeral ?? true,
     experimentalRawEvents: false
@@ -71,8 +75,10 @@ function buildResumeParams(threadId, cwd, options = {}) {
     threadId,
     cwd,
     model: options.model ?? null,
-    approvalPolicy: options.approvalPolicy ?? "never",
-    sandbox: options.sandbox ?? "read-only"
+    ...(options.sandbox === null ? {} : {
+      approvalPolicy: options.approvalPolicy ?? "never",
+      sandbox: options.sandbox ?? "read-only"
+    })
   };
 }
 
@@ -790,12 +796,12 @@ async function getCodexAuthStatusFromClient(client, cwd) {
 }
 
 export function getCodexAvailability(cwd) {
-  const versionStatus = binaryAvailable("codex", ["--version"], { cwd });
+  const versionStatus = resolveCodexBinary({ cwd });
   if (!versionStatus.available) {
     return versionStatus;
   }
 
-  const appServerStatus = binaryAvailable("codex", ["app-server", "--help"], { cwd });
+  const appServerStatus = binaryAvailable(versionStatus.command, ["app-server", "--help"], { cwd });
   if (!appServerStatus.available) {
     return {
       available: false,
@@ -805,7 +811,8 @@ export function getCodexAvailability(cwd) {
 
   return {
     available: true,
-    detail: `${versionStatus.detail}; advanced runtime available`
+    command: versionStatus.command,
+    detail: `${versionStatus.detail}; advanced runtime available (${versionStatus.command})`
   };
 }
 
@@ -970,61 +977,85 @@ export async function runAppServerTurn(cwd, options = {}) {
   return withAppServer(cwd, async (client) => {
     let threadId;
 
-    if (options.resumeThreadId) {
-      emitProgress(options.onProgress, `Resuming thread ${options.resumeThreadId}.`, "starting");
-      const response = await resumeThread(client, options.resumeThreadId, cwd, {
-        model: options.model,
-        sandbox: options.sandbox,
-        ephemeral: false
+    try {
+      if (options.resumeThreadId) {
+        emitProgress(options.onProgress, `Resuming thread ${options.resumeThreadId}.`, "starting");
+        const resumeOptions = { model: options.model, sandbox: options.sandbox };
+        let response;
+        try {
+          response = await resumeThread(client, options.resumeThreadId, cwd, resumeOptions);
+        } catch (error) {
+          const message = String(error.message ?? error);
+          if (!options.archiveOnCompletion || !message.includes("is archived") || !message.includes("codex unarchive")) {
+            throw error;
+          }
+          await client.request("thread/unarchive", { threadId: options.resumeThreadId });
+          threadId = options.resumeThreadId;
+          emitProgress(options.onProgress, `Reopening helper thread ${threadId}.`, "starting", { threadId });
+          // The outer finally rearchives even when this retry cannot start.
+          response = await resumeThread(client, threadId, cwd, resumeOptions);
+        }
+        threadId = response.thread.id;
+      } else {
+        emitProgress(options.onProgress, "Starting Codex task thread.", "starting");
+        const response = await startThread(client, cwd, {
+          model: options.model,
+          sandbox: options.sandbox,
+          ephemeral: options.persistThread ? false : true,
+          threadName: options.persistThread ? options.threadName : options.threadName ?? null
+        });
+        threadId = response.thread.id;
+      }
+
+      emitProgress(options.onProgress, `Thread ready (${threadId}).`, "starting", {
+        threadId
       });
-      threadId = response.thread.id;
-    } else {
-      emitProgress(options.onProgress, "Starting Codex task thread.", "starting");
-      const response = await startThread(client, cwd, {
-        model: options.model,
-        sandbox: options.sandbox,
-        ephemeral: options.persistThread ? false : true,
-        threadName: options.persistThread ? options.threadName : options.threadName ?? null
-      });
-      threadId = response.thread.id;
+
+      const prompt = options.prompt?.trim() || options.defaultPrompt || "";
+      if (!prompt) {
+        throw new Error("A prompt is required for this Codex run.");
+      }
+
+      const turnState = await captureTurn(
+        client,
+        threadId,
+        () =>
+          client.request("turn/start", {
+            threadId,
+            input: buildTurnInput(prompt),
+            model: options.model ?? null,
+            effort: options.effort ?? null,
+            outputSchema: options.outputSchema ?? null
+          }),
+        { onProgress: options.onProgress }
+      );
+
+      return {
+        status: buildResultStatus(turnState),
+        threadId,
+        turnId: turnState.turnId,
+        finalMessage: turnState.lastAgentMessage,
+        reasoningSummary: turnState.reasoningSummary,
+        turn: turnState.finalTurn,
+        error: turnState.error,
+        stderr: cleanCodexStderr(client.stderr),
+        fileChanges: turnState.fileChanges,
+        touchedFiles: collectTouchedFiles(turnState.fileChanges),
+        commandExecutions: turnState.commandExecutions
+      };
+    } finally {
+      if (options.archiveOnCompletion && threadId) {
+        try {
+          await client.request("thread/archive", { threadId });
+        } catch (error) {
+          // Keep the completed answer or original failure. Make cleanup failure
+          // observable through the same stderr/log channel as other progress.
+          emitProgress(options.onProgress,
+            `Could not archive helper thread ${threadId}: ${error.message ?? error}`,
+            "cleanup-failed");
+        }
+      }
     }
-
-    emitProgress(options.onProgress, `Thread ready (${threadId}).`, "starting", {
-      threadId
-    });
-
-    const prompt = options.prompt?.trim() || options.defaultPrompt || "";
-    if (!prompt) {
-      throw new Error("A prompt is required for this Codex run.");
-    }
-
-    const turnState = await captureTurn(
-      client,
-      threadId,
-      () =>
-        client.request("turn/start", {
-          threadId,
-          input: buildTurnInput(prompt),
-          model: options.model ?? null,
-          effort: options.effort ?? null,
-          outputSchema: options.outputSchema ?? null
-        }),
-      { onProgress: options.onProgress }
-    );
-
-    return {
-      status: buildResultStatus(turnState),
-      threadId,
-      turnId: turnState.turnId,
-      finalMessage: turnState.lastAgentMessage,
-      reasoningSummary: turnState.reasoningSummary,
-      turn: turnState.finalTurn,
-      error: turnState.error,
-      stderr: cleanCodexStderr(client.stderr),
-      fileChanges: turnState.fileChanges,
-      touchedFiles: collectTouchedFiles(turnState.fileChanges),
-      commandExecutions: turnState.commandExecutions
-    };
   });
 }
 
@@ -1035,18 +1066,21 @@ export async function findLatestTaskThread(cwd) {
   }
 
   return withAppServer(cwd, async (client) => {
-    const response = await client.request("thread/list", {
-      cwd,
-      limit: 20,
-      sortKey: "updated_at",
-      sourceKinds: ["appServer"],
-      searchTerm: TASK_THREAD_PREFIX
-    });
-
-    return (
-      response.data.find((thread) => typeof thread.name === "string" && thread.name.startsWith(TASK_THREAD_PREFIX)) ??
-      null
-    );
+    const threads = [];
+    for (const archived of [false, true]) {
+      const response = await client.request("thread/list", {
+        cwd,
+        archived,
+        limit: 20,
+        sortKey: "updated_at",
+        sourceKinds: ["appServer"],
+        searchTerm: TASK_THREAD_PREFIX
+      });
+      threads.push(...response.data);
+    }
+    return threads
+      .filter((thread) => typeof thread.name === "string" && thread.name.startsWith(TASK_THREAD_PREFIX))
+      .sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))[0] ?? null;
   });
 }
 

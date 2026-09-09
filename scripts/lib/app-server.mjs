@@ -14,6 +14,7 @@ import { spawn } from "node:child_process";
 import readline from "node:readline";
 import { parseBrokerEndpoint } from "./broker-endpoint.mjs";
 import { ensureBrokerSession, loadBrokerSession } from "./broker-lifecycle.mjs";
+import { resolveCodexBinary } from "./codex-binary.mjs";
 import { terminateProcessTree } from "./process.mjs";
 
 const PLUGIN_MANIFEST_URL = new URL("../../.claude-plugin/plugin.json", import.meta.url);
@@ -186,7 +187,9 @@ class SpawnedCodexAppServerClient extends AppServerClientBase {
   }
 
   async initialize() {
-    this.proc = spawn("codex", ["app-server"], {
+    const runtime = resolveCodexBinary({ cwd: this.cwd, env: this.options.env ?? process.env });
+    if (!runtime.available) throw new Error(`Codex runtime unavailable: ${runtime.detail}`);
+    this.proc = spawn(runtime.command, ["app-server"], {
       cwd: this.cwd,
       env: this.options.env ?? process.env,
       stdio: ["pipe", "pipe", "pipe"],

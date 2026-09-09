@@ -6,6 +6,10 @@ import type {
   ServerNotification
 } from "../../.generated/app-server-types/index.js";
 import type {
+  ThreadArchiveParams,
+  ThreadArchiveResponse,
+  ThreadUnarchiveParams,
+  ThreadUnarchiveResponse,
   ReviewStartParams,
   ReviewStartResponse,
   ReviewTarget,
@@ -57,6 +61,8 @@ export interface CodexAppServerClientOptions {
 export interface AppServerMethodMap {
   initialize: { params: InitializeParams; result: InitializeResponse };
   "thread/start": { params: ThreadStartParams; result: ThreadStartResponse };
+  "thread/archive": { params: ThreadArchiveParams; result: ThreadArchiveResponse };
+  "thread/unarchive": { params: ThreadUnarchiveParams; result: ThreadUnarchiveResponse };
   "thread/resume": { params: ThreadResumeParams; result: ThreadResumeResponse };
   "thread/name/set": { params: ThreadSetNameParams; result: ThreadSetNameResponse };
   "thread/list": { params: ThreadListParams; result: ThreadListResponse };

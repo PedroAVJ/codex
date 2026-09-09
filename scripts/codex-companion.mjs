@@ -51,7 +51,7 @@ import {
   runTrackedJob,
   SESSION_ID_ENV
 } from "./lib/tracked-jobs.mjs";
-import { resolveWorkspaceRoot } from "./lib/workspace.mjs";
+import { resolveTaskWorkspace, resolveWorkspaceRoot } from "./lib/workspace.mjs";
 import {
   renderNativeReviewResult,
   renderReviewResult,
@@ -78,7 +78,7 @@ function printUsage() {
       "  node scripts/codex-companion.mjs setup [--enable-review-gate|--disable-review-gate] [--json]",
       "  node scripts/codex-companion.mjs review [--wait|--background] [--base <ref>] [--scope <auto|working-tree|branch>]",
       "  node scripts/codex-companion.mjs adversarial-review [--wait|--background] [--base <ref>] [--scope <auto|working-tree|branch>] [focus text]",
-      "  node scripts/codex-companion.mjs task [--background] [--write] [--resume-last|--resume|--fresh] [--model <model|spark>] [--effort <none|minimal|low|medium|high|xhigh>] [prompt]",
+      "  node scripts/codex-companion.mjs task [--wait|--background] [--write] [--resume-last|--resume|--fresh] [--model <model|spark>] [--effort <none|minimal|low|medium|high|xhigh>] [prompt]",
       "  node scripts/codex-companion.mjs status [job-id] [--all] [--json]",
       "  node scripts/codex-companion.mjs result [job-id] [--json]",
       "  node scripts/codex-companion.mjs cancel [job-id] [--json]"
@@ -480,15 +480,17 @@ async function executeTaskRun(request) {
     throw new Error("Provide a prompt, a prompt file, piped stdin, or use --resume-last.");
   }
 
-  const result = await runAppServerTurn(workspaceRoot, {
+  const runtimeCwd = resolveTaskWorkspace(request.cwd, { explicitCwd: request.explicitCwd });
+  const result = await runAppServerTurn(runtimeCwd, {
     resumeThreadId,
     prompt: request.prompt,
     defaultPrompt: resumeThreadId ? DEFAULT_CONTINUE_PROMPT : "",
     model: request.model,
     effort: request.effort,
-    sandbox: request.write ? "workspace-write" : "read-only",
+    sandbox: request.write ? null : "read-only",
     onProgress: request.onProgress,
     persistThread: true,
+    archiveOnCompletion: true,
     threadName: resumeThreadId ? null : buildPersistentTaskThreadName(request.prompt || DEFAULT_CONTINUE_PROMPT)
   });
 
@@ -599,9 +601,10 @@ function buildTaskJob(workspaceRoot, taskMetadata, write) {
   });
 }
 
-function buildTaskRequest({ cwd, model, effort, prompt, write, resumeLast, jobId }) {
+function buildTaskRequest({ cwd, explicitCwd, model, effort, prompt, write, resumeLast, jobId }) {
   return {
     cwd,
+    explicitCwd,
     model,
     effort,
     prompt,
@@ -733,11 +736,15 @@ async function handleReview(argv) {
 async function handleTask(argv) {
   const { options, positionals } = parseCommandInput(argv, {
     valueOptions: ["model", "effort", "cwd", "prompt-file"],
-    booleanOptions: ["json", "write", "resume-last", "resume", "fresh", "background"],
+    booleanOptions: ["json", "write", "resume-last", "resume", "fresh", "background", "wait"],
     aliasMap: {
       m: "model"
     }
   });
+
+  if (options.wait && options.background) {
+    throw new Error("Choose either --wait or --background.");
+  }
 
   const cwd = resolveCommandCwd(options);
   const workspaceRoot = resolveCommandWorkspace(options);
@@ -763,6 +770,7 @@ async function handleTask(argv) {
     const job = buildTaskJob(workspaceRoot, taskMetadata, write);
     const request = buildTaskRequest({
       cwd,
+      explicitCwd: Boolean(options.cwd),
       model,
       effort,
       prompt,
@@ -781,6 +789,7 @@ async function handleTask(argv) {
     (progress) =>
       executeTaskRun({
         cwd,
+        explicitCwd: Boolean(options.cwd),
         model,
         effort,
         prompt,
