@@ -6,23 +6,30 @@ import path from 'node:path';
 import { parseArgs } from 'node:util';
 import { resolveCodexBinary } from './lib/codex-binary.mjs';
 import { buildSparkRequest, readRoleContract, verifySparkMetadata } from './lib/named-participant.mjs';
+import { buildCloudRequest, runCloudParticipant } from './lib/cloud-participant.mjs';
 
 async function main() {
   const { values, positionals } = parseArgs({ allowPositionals: true, options: {
     participant: { type: 'string' }, 'role-contract': { type: 'string' }, role: { type: 'string' }, config: { type: 'string' },
-    cwd: { type: 'string', default: process.cwd() }, effort: { type: 'string' },
+    cwd: { type: 'string', default: process.cwd() }, effort: { type: 'string' }, model: { type: 'string' }, 'trust-workspace': { type: 'boolean' },
     'prompt-file': { type: 'string' }, 'timeout-seconds': { type: 'string', default: '600' }, help: { type: 'boolean' },
   } });
   if (values.help) {
-    console.log('Usage: node scripts/named-participant.mjs --participant Spark [--role-contract FILE | --role KEY [--config REGISTRY]] [--cwd DIR] [--effort low|medium|high|xhigh] [--prompt-file FILE | PROMPT]\nReturns JSON with actual model, role, effective effort, and answer. No implicit participant or persistent sidebar task.');
+    console.log('Usage: node scripts/named-participant.mjs --participant Spark|Gemini|Grok [--role-contract FILE | --role KEY [--config REGISTRY]] [--cwd DIR] [--effort LEVEL] [--model GEMINI_MODEL] [--trust-workspace] [--prompt-file FILE | PROMPT]\nReturns JSON with actual model, role, effort verification, and answer. Gemini uses native CLI default effort; incompatible role settings fail before launch. No implicit participant or persistent sidebar task.');
     return;
   }
   if (values['prompt-file'] && positionals.length) throw new Error('Use --prompt-file or a prompt, not both.');
   const prompt = values['prompt-file'] ? fs.readFileSync(values['prompt-file'], 'utf8') : positionals.join(' ');
   const contract = readRoleContract({ contract: values['role-contract'], role: values.role, config: values.config });
-  const request = buildSparkRequest({ participant: values.participant, contract, prompt, cwd: values.cwd, effort: values.effort });
   const timeout = Number(values['timeout-seconds']);
   if (!Number.isFinite(timeout) || timeout <= 0 || timeout > 3600) throw new Error('Timeout must be between 0 and 3600 seconds.');
+  if (['gemini', 'grok'].includes(values.participant?.toLowerCase())) {
+    const request = buildCloudRequest({ participant: values.participant, contract, prompt, cwd: values.cwd, effort: values.effort, model: values.model, trustWorkspace: values['trust-workspace'] });
+    console.log(JSON.stringify(await runCloudParticipant(request, { timeoutSeconds: timeout, artifactRoot: path.resolve(values.cwd, '.codex-artifacts', 'named-participants') })));
+    return;
+  }
+  if (values.model || values['trust-workspace']) throw new Error('--model and --trust-workspace are cloud participant options; Spark preserves its existing runtime contract.');
+  const request = buildSparkRequest({ participant: values.participant, contract, prompt, cwd: values.cwd, effort: values.effort });
   const binary = resolveCodexBinary({ cwd: values.cwd });
   if (!binary.available) throw new Error('Codex CLI unavailable; no alternate model was launched.');
   const artifactRoot = path.resolve(values.cwd, '.codex-artifacts', 'named-participants');
@@ -61,4 +68,4 @@ async function main() {
     console.log(JSON.stringify({ participant: request.participant, model: verifiedModel, role: request.role, configuredModel: request.configuredModel, effort: actualEffort, answer }));
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 }
-main().catch(error => { console.error(JSON.stringify({ error: error.message })); process.exitCode = 1; });
+main().catch(error => { console.error(JSON.stringify({ error: error.message, ...(error.code ? { code: error.code } : {}) })); process.exitCode = 1; });
