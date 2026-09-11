@@ -59,9 +59,12 @@ executable; an invalid explicit override fails without switching runtimes.
 
 The `codex:sub-agents` skill routes participant and role independently. Codex is
 the current main assistant, never a pinned version. Claude/Fable selects
-`claude-fable-5-1`; Spark selects `gpt-5.3-codex-spark`. No participant name always
-means Codex, even after another participant answered. Each named participant
-actually runs; the parent never impersonates it.
+`claude-fable-5-1`; Spark selects `gpt-5.3-codex-spark`. A one-to-one thread has
+one participant, selected by its first substantive request, and every unnamed
+follow-up remains with that participant. The host has no group chat, so a thread
+never returns multiple participant voices. Consulted models may contribute
+internally, but the thread owner remains the sole speaker and is never
+impersonated.
 
 Gemini and Grok can also be called through `scripts/named-participant.mjs` using
 their installed native CLIs and existing authentication. Gemini defaults to

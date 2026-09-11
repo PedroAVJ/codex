@@ -7,7 +7,7 @@ import test from "node:test";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const expected = {
   "name": "codex",
-  "version": "0.8.27",
+  "version": "0.8.28",
   "url": "https://github.com/PedroAVJ/codex",
   "dependencies": []
 };
@@ -15,6 +15,17 @@ const expected = {
 async function json(...parts) {
   return JSON.parse(await readFile(join(root, ...parts), "utf8"));
 }
+
+test("one-to-one participant ownership is thread-scoped", async () => {
+  const skill = await readFile(join(root, "skills", "sub-agents", "SKILL.md"), "utf8");
+  assert.match(skill, /one-to-one thread has exactly one participant/i);
+  assert.match(skill, /selected participant owns\s+every later turn/i);
+  assert.match(skill, /current host has no group chat/i);
+  assert.match(skill, /start a separate thread/i);
+  assert.match(skill, /Internal consultation[\s\S]*do not make the consulted models chat participants/);
+  assert.doesNotMatch(skill, /No participant name \*\*always selects Codex\*\*/);
+  assert.doesNotMatch(skill, /previous speaker does not change the default/);
+});
 
 test("standalone plugin metadata is synchronized", async () => {
   const codex = await json(".codex-plugin", "plugin.json");

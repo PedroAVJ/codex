@@ -11,6 +11,10 @@
   live bridge keys, paired-device state, API credentials, logs, and the
   `com.pedro.codexvoice.bridge` service stable across plugin upgrades.
 - Bump the plugin version for released behavior changes and run `npm test` before publishing.
+- Keep named participants thread-scoped. A one-to-one thread has one participant
+  selected by its first substantive request; every later turn remains with that
+  participant. The host has no group chat, so do not simulate multiple speakers
+  in one thread. Internal model consultation does not change thread ownership.
 - Keep unsolicited plugin stewardship opt-in by evidence: only direct, explicit,
   reusable corrections to agent-loaded plugin behavior may create a sanitized
   stewardship sub-agent without copied history. Separate tasks or forks require
