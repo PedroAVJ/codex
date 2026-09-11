@@ -15,7 +15,7 @@ async function main() {
     'prompt-file': { type: 'string' }, 'timeout-seconds': { type: 'string', default: '600' }, help: { type: 'boolean' },
   } });
   if (values.help) {
-    console.log('Usage: node scripts/named-participant.mjs --participant Spark|Gemini|Grok [--role-contract FILE | --role KEY [--config REGISTRY]] [--cwd DIR] [--effort LEVEL] [--model GEMINI_MODEL] [--trust-workspace] [--prompt-file FILE | PROMPT]\nReturns JSON with actual model, role, effort verification, and answer. Gemini uses native CLI default effort; incompatible role settings fail before launch. No implicit participant or persistent sidebar task.');
+    console.log('Usage: node scripts/named-participant.mjs --participant Spark|Gemini [--role-contract FILE | --role KEY [--config REGISTRY]] [--cwd DIR] [--effort LEVEL] [--model GEMINI_MODEL] [--trust-workspace] [--prompt-file FILE | PROMPT]\nReturns JSON with actual model, role, effort verification, and answer. Gemini uses native CLI default effort; incompatible role settings fail before launch. No implicit participant or persistent sidebar task.');
     return;
   }
   if (values['prompt-file'] && positionals.length) throw new Error('Use --prompt-file or a prompt, not both.');
@@ -23,7 +23,7 @@ async function main() {
   const contract = readRoleContract({ contract: values['role-contract'], role: values.role, config: values.config });
   const timeout = Number(values['timeout-seconds']);
   if (!Number.isFinite(timeout) || timeout <= 0 || timeout > 3600) throw new Error('Timeout must be between 0 and 3600 seconds.');
-  if (['gemini', 'grok'].includes(values.participant?.toLowerCase())) {
+  if (values.participant?.toLowerCase() === 'gemini') {
     const request = buildCloudRequest({ participant: values.participant, contract, prompt, cwd: values.cwd, effort: values.effort, model: values.model, trustWorkspace: values['trust-workspace'] });
     console.log(JSON.stringify(await runCloudParticipant(request, { timeoutSeconds: timeout, artifactRoot: path.resolve(values.cwd, '.codex-artifacts', 'named-participants') })));
     return;

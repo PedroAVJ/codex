@@ -63,19 +63,17 @@ the current main assistant, never a pinned version. Claude/Fable selects
 means Codex, even after another participant answered. Each named participant
 actually runs; the parent never impersonates it.
 
-Gemini and Grok can also be called through `scripts/named-participant.mjs` using
-their installed native CLIs and existing authentication. Gemini defaults to
-`gemini-3.5-flash`; Grok selects `grok-4.6`. The helper verifies native response
-model metadata, returns attributed JSON, and refuses silent model fallback.
-These CLIs run locally while model inference is hosted. Plugin installation does
-not grant provider access or purchase API usage. Authentication and quota failures
-remain explicit; the helper never starts or restarts a login challenge.
+Gemini can also be called through `scripts/named-participant.mjs` using its
+installed native CLI and existing authentication. It defaults to
+`gemini-3.5-flash`. The helper verifies actual per-model usage metadata, returns
+attributed JSON, and refuses silent model fallback. The CLI runs locally while
+model inference is hosted. Plugin installation does not grant provider access or
+purchase API usage; authentication and quota failures remain explicit.
 
-The initial cloud role adapter supports individual roles only and rejects
-unsupported runtime settings. Gemini CLI has no effort flag, so an effort-bound
-role (including the configured Undergrad) is rejected rather than downgraded.
-Grok supports low, medium, high, and xhigh through its native effort flag. See
-the routing skill for exact trust, permission, and verification limits.
+The initial Gemini adapter supports individual roles only and rejects unsupported
+runtime settings. Gemini CLI has no effort flag, so an effort-bound role (including
+the configured Undergrad) is rejected rather than downgraded. See the routing skill
+for exact trust, permission, and verification limits.
 
 All participants share the existing live role registry and instructions. A named
 participant overrides the role model only; exact reasoning effort and delegation

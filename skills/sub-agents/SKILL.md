@@ -1,6 +1,6 @@
 ---
 name: sub-agents
-description: Route named participants Codex, Claude/Fable, Spark, Gemini, and Grok independently of shared configured roles. No participant name always selects Codex, the current main assistant. Run actual requested models with live role instructions, reasoning and delegation constraints; never impersonate them. Supports individual and collaborative requests in text or voice.
+description: Route named participants Codex, Claude/Fable, Spark, and Gemini independently of shared configured roles. No participant name always selects Codex, the current main assistant. Run actual requested models with live role instructions, reasoning and delegation constraints; never impersonate them. Supports individual and collaborative requests in text or voice.
 ---
 
 # Sub-agents
@@ -11,10 +11,10 @@ role or seniority. Claude and Fable name the same participant running
 actual model; a role chooses responsibilities and delegation rules from the one
 live user registry. These are independent choices, not response styles.
 
-Gemini and Grok use their installed native cloud-backed CLIs through the same
-named-participant helper. The current defaults are `gemini-3.5-flash` and
-`grok-4.6`. A local CLI does not mean local model weights. Native authentication,
-model entitlement, quota, billing, and trust remain separate from this plugin.
+Gemini uses its installed native cloud-backed CLI through the same
+named-participant helper, currently defaulting to `gemini-3.5-flash`. A local CLI
+does not mean local model weights. Native authentication, model entitlement,
+quota, billing, and trust remain separate from this plugin.
 
 ## Identify participant and role independently
 
@@ -130,22 +130,19 @@ native delegates receive their real instructions and supported effort. Do not
 invent a Claude-specific role ladder. The Claude helper pins Fable and reports
 unsupported runtime constraints instead of silently discarding them.
 
-For Gemini or Grok:
+For Gemini:
 
 ```bash
 node "<codex-plugin-root>/scripts/named-participant.mjs" \
   --participant Gemini --cwd "<owned-workspace>" --prompt-file "<bounded-task.txt>"
-node "<codex-plugin-root>/scripts/named-participant.mjs" \
-  --participant Grok --cwd "<owned-workspace>" --prompt-file "<bounded-task.txt>"
 ```
 
-These are bounded subprocesses, not sidebar tasks. Install Gemini CLI from
-`@google/gemini-cli` and Grok Build from the official `https://x.ai/cli/install.sh`
-only when setup is authorized. Commands are `gemini` and `grok`; optional exact
-executable overrides are `CODEX_GEMINI_BINARY` and `CODEX_GROK_BINARY`. Invalid
-overrides fail without selecting another runtime. Authenticate with the native
-CLI first. This helper does not start login, purchase access, enable billing, or
-create credentials. An `auth_required` result is not a model contribution.
+This is a bounded subprocess, not a sidebar task. Install Gemini CLI from
+`@google/gemini-cli` only when setup is authorized. The command is `gemini`;
+`CODEX_GEMINI_BINARY` optionally selects an exact executable. An invalid override
+fails without selecting another runtime. Authenticate with the native CLI first.
+This helper does not start login, purchase access, enable billing, or create
+credentials. An authentication error is not a model contribution.
 
 Gemini accepts an explicit concrete `--model gemini-...` override. Its startup
 model can differ from the model used: the helper also verifies final per-model
@@ -156,32 +153,23 @@ the task owns and trusts the workspace, `--trust-workspace` passes Gemini's
 session-scoped `--skip-trust`. Otherwise preserve the native trust prompt. Never
 use that flag to bypass an unknown or untrusted repository's boundary.
 
-The initial cloud adapters intentionally support a limited role contract:
+The initial Gemini adapter accepts selected role instructions and the named
+participant model override. Individual `agents.enabled=false` is supported through
+instructions, not a claim that tools are disabled. Coordinating/delegating roles
+and other runtime settings fail before launch. Gemini's native CLI has no effort
+flag, so this adapter declines every explicit role effort or `--effort`, including
+a configured Undergrad's medium effort. It can run as the Gemini participant
+without an effort-bound role. Do not remove a selected role's effort or claim
+prompt prose applies it.
 
-- Both accept the selected role's instructions and model identity override.
-  Individual `agents.enabled=false` is supported; coordinating/delegating roles
-  and other runtime settings fail before launch. Both receive no-delegation
-  instructions. Grok also uses native `--no-subagents`; Gemini enforcement is
-  instructional, not a claim that tools are disabled.
-- Gemini's native CLI has no effort flag. This adapter declines every explicit
-  role effort or `--effort`, including a configured Undergrad's medium effort.
-  It can run as the Gemini participant without an effort-bound role. Do not
-  remove a selected role's effort or claim prompt prose applies it.
-- Grok 4.6 supports exact `low`, `medium`, `high`, and `xhigh` through the native
-  `--reasoning-effort` flag. The result distinguishes this requested native flag
-  from unreported provider-default effort; it does not claim server-side effort
-  readback. Model identity must appear in native assistant-message metadata.
-- Grok's `dontAsk` mode refuses tools requiring new approval and preserves
-  existing native permission rules. Gemini uses its existing native approval
-  settings. Neither adapter enables YOLO or bypasses a sandbox. These are not
-  translations of Codex sandbox/approval contracts: roles specifying those
-  settings are rejected rather than silently weakened.
-
-Native sessions and credentials remain in each provider's own store. Private
-prompt artifacts created by the wrapper are removed after completion or failure.
-Report actual response, usage/model verification, and any authentication or
-unsupported-role blocker separately. A successful install or mock test alone
-does not prove that a provider can answer on the user's account.
+Gemini uses its existing native approval settings. The adapter does not enable
+YOLO or translate Codex sandbox/approval contracts: roles specifying those
+settings are rejected rather than silently weakened. Native sessions and
+credentials remain in Gemini's own store. The wrapper removes its private task
+artifacts after completion or failure. Report actual response, usage/model
+verification, and any authentication or unsupported-role blocker separately.
+Installation or mock tests alone do not prove account access or successful
+model execution.
 
 Exact role effort must be supported by the selected participant. For example,
 Spark supports low, medium, high, and xhigh; a role requiring max must be declined
