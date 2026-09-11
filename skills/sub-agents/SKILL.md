@@ -272,17 +272,21 @@ defaults, including the preference for sub-agents in realtime orchestration and
 plugin implementation. This skill does not authorize unsolicited role selection
 for unaddressed requests or grant additional access, writes, or external actions.
 
-## Return each recipient's answer
+## Return the thread owner's answer
 
-Keep the parent available for its assigned contribution and coordination. Relay
-each requested role's substantive answer with its participant name and human-readable role label when assigned,
-following [source-attributed-relay](../source-attributed-relay/SKILL.md). Keep a
-parent answer distinguishable when the user requested both. Preserve every direct
-question in the final response; dispatch and progress updates are not answers.
-Report running or completed state only from current agent evidence. If a role
-cannot run, state that plainly and continue any independent parent contribution.
+The thread owner returns the only user-facing answer. Do not add a participant
+name or model label in a one-to-one thread; the thread already identifies its
+participant. When the owner consults another runtime, incorporate or attribute
+that contribution as evidence without relaying it as a second speaker. A role
+label is execution metadata, not another participant, and should appear only
+when material to the user's request. Preserve every direct question in the final
+response; dispatch and progress updates are not answers. Report running or
+completed state only from current evidence. If a consultation or role cannot
+run, state that limitation within the owner's answer rather than substituting a
+different participant.
 
 During active realtime voice, use
 [realtime-orchestration](../realtime-orchestration/SKILL.md) for queue and status
-handling while preserving the recipients selected here. For every participant, use only a runtime route that actually honors the resolved
-shared role; never present an unapplied persona as that configured agent.
+handling while preserving the thread owner selected here. For any internal
+consultation, use only a runtime route that actually honors the resolved shared
+role; never present an unapplied persona as that configured agent.

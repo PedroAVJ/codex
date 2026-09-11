@@ -7,7 +7,7 @@ import test from "node:test";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const expected = {
   "name": "codex",
-  "version": "0.8.28",
+  "version": "0.8.29",
   "url": "https://github.com/PedroAVJ/codex",
   "dependencies": []
 };
@@ -23,8 +23,12 @@ test("one-to-one participant ownership is thread-scoped", async () => {
   assert.match(skill, /current host has no group chat/i);
   assert.match(skill, /start a separate thread/i);
   assert.match(skill, /Internal consultation[\s\S]*do not make the consulted models chat participants/);
+  assert.match(skill, /thread owner returns the only user-facing answer/i);
+  assert.match(skill, /Do not add a participant\s+name or model label in a one-to-one thread/i);
   assert.doesNotMatch(skill, /No participant name \*\*always selects Codex\*\*/);
   assert.doesNotMatch(skill, /previous speaker does not change the default/);
+  assert.doesNotMatch(skill, /Return each recipient's answer/);
+  assert.doesNotMatch(skill, /user requested both/);
 });
 
 test("standalone plugin metadata is synchronized", async () => {

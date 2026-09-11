@@ -1,6 +1,6 @@
 {
   "name": "codex",
-  "version": "0.8.28",
+  "version": "0.8.29",
   "description": "Use OpenAI Codex through its CLI and app-server, with realtime task orchestration, shared memory, review and rescue handoffs, coding contracts, and the Codex Voice Apple Watch companion.",
   "author": {
     "name": "PedroAVJ",
