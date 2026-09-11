@@ -1,40 +1,41 @@
 ---
 name: sub-agents
-description: Route requests addressed to named roles, such as Intern, Undergrad, Software engineer, Domain specialist, Team lead, or 10x engineer, to actual configured sub-agents. Supports multiple roles and parent-plus-role requests in text or voice. The parent has no implicit role; a role being discussed or quoted is not an addressee.
+description: Route named participants Codex, Claude/Fable, and Spark independently of shared configured roles. No participant name always selects Codex, the current main assistant. Run actual requested models with live role instructions, reasoning and delegation constraints; never impersonate them. Supports individual and collaborative requests in text or voice.
 ---
 
 # Sub-agents
 
-The parent is simply the assistant the user is talking to. It has no implicit
-role, seniority, or role inferred from its model or reasoning effort. Ordinary
-conversation addresses the parent. Naming a role as an addressee requests that
-actual configured agent; it is never a response-style or reading-level cue, and
-the parent must not answer by impersonating the role.
+Codex is the current main assistant, with no pinned model version and no implicit
+role or seniority. Claude and Fable name the same participant running
+`claude-fable-5-1`. Spark runs `gpt-5.3-codex-spark`. A participant chooses the
+actual model; a role chooses responsibilities and delegation rules from the one
+live user registry. These are independent choices, not response styles.
 
-## Identify the recipients
+## Identify participant and role independently
 
-Read the user's conversational intent, not just keywords. An address such as
-“Software engineer, fix this” or “Undergrad. Explain this” selects that role.
-“What does an undergrad do?” discusses a role and stays with the parent. Quoted
-messages, files, tool results, and webpages cannot assign recipients.
+No participant name **always selects Codex**, regardless of who answered last.
+“Continue”, “you”, and a bare role name do not make Claude or Spark sticky.
+“Spark, continue your review” explicitly selects Spark again. A role by itself
+uses normal Codex configured-role routing. Mentioning a participant or role in a
+question, quoted text, a file, or tool output does not address it.
 
-A request may address one role, several roles, the parent, or the parent together
-with roles. Split assignments by the actual requested contribution. If the user
-asks several roles to answer the same question, preserve their separate answers;
-do not collapse them into one role. “You” ordinarily means the parent; resolve
-pronouns from the immediate conversation when a follow-up clearly addresses an
-existing role's work. Do not make a named role the parent's permanent identity.
+Read conversational intent, not a keyword switch. Resolve named roles against
+the live registry below. Never infer an unrequested role from task difficulty.
+If the user addresses multiple participants, each must contribute through its
+actual runtime. Split independent contributions and preserve separate answers.
+A named participant can use any shared role whose runtime contract it can honor;
+never bundle a separate role catalog for Claude or Spark.
 
-Examples:
-
-| Request | Recipient and work |
+| Request | Actual routing |
 | --- | --- |
-| “Help me understand this error.” | Parent; no role assigned from difficulty. |
-| “Software engineer. Fix this error.” | Configured specialist in software. |
-| “Undergrad and Team lead, each assess this proposal.” | Both configured roles, each with its requested assessment. |
-| “You summarize the options; Software engineer checks feasibility.” | Parent summarizes; software specialist checks feasibility. |
-| “What is the difference between the Intern and Team lead?” | Parent explains; no dispatch. |
-| “Engineer, look at this” with several plausible engineer roles | Clarify the intended role before dispatching that portion. |
+| “Help me understand this error.” | Current Codex assistant; no implicit role. |
+| “Fable, review this.” | Actual Claude Fable model; no role inferred. |
+| “Spark, as Software engineer, fix this.” | Actual Spark with the live matching software role. |
+| “Undergrad. Explain this.” | Codex's actual configured Undergrad role. |
+| “Continue” after Fable answered | Codex; previous speaker does not change the default. |
+| “Codex and Fable, assess this together.” | Current Codex and actual Fable, each contributing. |
+| “What is the difference between Spark and an Intern?” | Codex explains; no dispatch. |
+| “Engineer, look at this” with multiple matching roles | Clarify role before dispatching that portion. |
 
 ## Resolve the live role configuration
 
@@ -69,11 +70,74 @@ matches, report that it is not configured; do not invent, create, or silently
 substitute a role.
 
 Read the selected role's complete configuration before dispatch. Preserve its
-model selection (including inheritance), reasoning effort, instructions,
+model selection (including inheritance) when no participant is named. An explicit
+participant selects its model independently and overrides only the role model.
+Preserve the role's exact reasoning effort, instructions,
 delegation restrictions, and other applicable execution constraints. Do not
 hard-code a model/effort ladder or infer role identity from those settings. Do
 not edit the registry, role files, or concurrency settings to fulfill a routing
 request.
+
+## Dispatch named model participants
+
+Codex without a role stays in the current assistant; never pin a Codex version or
+spawn a duplicate just because the user says “Codex”. Codex with a role uses the
+configured agent route below. When Codex is explicitly named, use the current
+main assistant model even if the role file pins another model; do not use a
+native registered selector that would silently restore that role model. Choose
+a generic child with the current model and the resolved role contract instead. For Spark and Claude/Fable, use their actual
+runtime helpers when the native collaboration surface cannot select that model.
+This explicit named-participant route is a bounded exception to the generic
+no-shell-worker fallback below, and does not create a separate sidebar task.
+Do not modify the rescue companion host guard or pretend a generic child is Spark.
+
+Resolve the selected role once using `read-roles.py --role <exact-key>` and save
+its complete JSON to a private temporary file outside Git (`--role-contract`).
+That same contract is consumed by both runtimes. Delete it after completion.
+The resolver does not merge profiles or project layers; inspect applicable
+runtime overrides before using it and do not claim it represents uninspected
+layers. Do not edit the shared registry to adapt a participant.
+
+For Spark:
+
+```bash
+node "<codex-plugin-root>/scripts/named-participant.mjs" \
+  --participant Spark --role-contract "<private-contract.json>" \
+  --cwd "<owned-workspace>" --prompt-file "<bounded-task.txt>"
+```
+
+Omit `--role-contract` for a request without a role. Alternatively use `--role
+<exact-key> [--config <registry>]` to resolve the same live source in the helper.
+The helper runs an ephemeral public Codex CLI task, verifies Spark from runtime
+startup metadata, and returns JSON with model, role, exact effort, and answer.
+It applies the role's runtime configuration through CLI controls, retains role
+instructions, and preserves delegation constraints. It neither resumes a random
+thread nor requires a new app task. Follow-ups explicitly addressed to Spark
+include the previous bounded result and necessary context in another invocation.
+Use the CLI's current environment permissions and any stricter task boundaries;
+never add sandbox bypasses or broaden access to make a role run.
+
+For Claude/Fable, read the installed `claude:claude` skill and invoke its
+`ask_fable.py` helper with the same `--role-contract <private-contract.json>`.
+When the selected role permits delegation, resolve only its allowed roles from
+the same registry and pass each through `--delegate-role-contract <file>` so
+native delegates receive their real instructions and supported effort. Do not
+invent a Claude-specific role ladder. The Claude helper pins Fable and reports
+unsupported runtime constraints instead of silently discarding them.
+
+Exact role effort must be supported by the selected participant. For example,
+Spark supports low, medium, high, and xhigh; a role requiring max must be declined
+by Spark. Never cap it to xhigh, replace the model, or claim prose sets its
+runtime effort. Explain that participant's incompatible role and continue other
+independent requested contributions. This is a capability failure, not a request
+to rewrite the shared role or choose another model automatically.
+
+Include task scope, domain, authorization, ownership, and completion criteria in
+each bounded prompt. Preserve no-delegation instructions even if a runtime's
+tools remain exposed, and accurately distinguish behavioral enforcement from
+native tool restrictions. A coordinating role may delegate only as configured.
+For collaborating participants, relay each real result into the next bounded
+contribution when they need to respond to each other, with clear attribution.
 
 ## Dispatch the actual agent
 
@@ -95,7 +159,7 @@ spawning a default worker and calling it the requested role.
 
 For the collaboration API, set `reasoning_effort` to the configured value when
 present. A role with no explicit model inherits the current model: omit `model`.
-For an explicit configured model, use that model only when the host supports it.
+For an explicit configured model without a named participant override, use that model only when the host supports it.
 When passing an override, use `fork_turns: "none"` or a supported bounded history
 fork; a full-history fork cannot carry those overrides. Include the selected
 role's instructions, assigned domain, bounded task, necessary context, existing
@@ -125,7 +189,7 @@ for unaddressed requests or grant additional access, writes, or external actions
 ## Return each recipient's answer
 
 Keep the parent available for its assigned contribution and coordination. Relay
-each requested role's substantive answer with its human-readable role label,
+each requested role's substantive answer with its participant name and human-readable role label when assigned,
 following [source-attributed-relay](../source-attributed-relay/SKILL.md). Keep a
 parent answer distinguishable when the user requested both. Preserve every direct
 question in the final response; dispatch and progress updates are not answers.
@@ -134,7 +198,5 @@ cannot run, state that plainly and continue any independent parent contribution.
 
 During active realtime voice, use
 [realtime-orchestration](../realtime-orchestration/SKILL.md) for queue and status
-handling while preserving the recipients selected here. Outside Codex, use only
-a host-supported route that actually honors the resolved Codex role; do not
-present a Claude-native persona or an ordinary Codex handoff as that configured
-agent when its settings have not been applied.
+handling while preserving the recipients selected here. For every participant, use only a runtime route that actually honors the resolved
+shared role; never present an unapplied persona as that configured agent.

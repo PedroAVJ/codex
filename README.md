@@ -45,8 +45,9 @@ memory-derived skills. Set `CODEX_MEMORY_BRIDGE=0` to disable context injection.
 Claude native auto-memory should remain disabled rather than pointing it at the
 Codex memory directory.
 
-The host guard intentionally refuses to delegate when the host is already
-Codex. That keeps installing this product-level plugin in Codex conceptually
+The rescue companion host guard intentionally refuses to delegate when the host is already
+Codex. Explicit named Spark requests use the separate `scripts/named-participant.mjs`
+bounded CLI helper; this does not bypass or change the rescue guard. That keeps installing this product-level plugin in Codex conceptually
 correct without asking Codex to rescue itself.
 
 The helper selects the newest available Codex CLI from PATH and the standard
@@ -56,14 +57,19 @@ executable; an invalid explicit override fails without switching runtimes.
 
 ## Realtime orchestration
 
-The `codex:sub-agents` skill routes requests addressed to named roles to the
-user's actual configured agents. The parent has no implicit role: ordinary
-conversation addresses the parent, while “Software engineer, fix this” selects
-the configured software specialist. Requests may address several roles, or the
-parent and roles together. Role models, reasoning effort, and delegation rules
-come from the live registry and role files, never a bundled role/effort ladder.
-This routing applies in text and voice and takes precedence over generic work
-routing. Private role configuration stays outside this repository.
+The `codex:sub-agents` skill routes participant and role independently. Codex is
+the current main assistant, never a pinned version. Claude/Fable selects
+`claude-fable-5-1`; Spark selects `gpt-5.3-codex-spark`. No participant name always
+means Codex, even after another participant answered. Each named participant
+actually runs; the parent never impersonates it.
+
+All participants share the existing live role registry and instructions. A named
+participant overrides the role model only; exact reasoning effort and delegation
+constraints still apply. An incompatible participant declines that role rather
+than downgrading effort or substituting a model. The read-only role resolver's
+selected JSON is the shared `--role-contract` for Spark and the Claude helper.
+Private role configuration stays outside this repository. See
+[the routing skill](skills/sub-agents/SKILL.md) for dispatch and collaboration.
 
 During GPT Live or another active realtime voice conversation, the parent Codex
 thread remains the user's conversational coordinator. Trivial questions stay in

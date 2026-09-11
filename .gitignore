@@ -9,3 +9,6 @@ DerivedData/
 .publication-local/
 AGENTS.local.md
 docs/design/claude-design/
+
+# Private task runtime outputs
+.codex-artifacts/
