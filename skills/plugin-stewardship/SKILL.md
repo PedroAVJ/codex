@@ -14,7 +14,10 @@ moving. Stewardship happens independently.
 When the user asks to update, fix, or implement a change in a plugin or skill, that
 is already the requested work, not an unsolicited stewardship candidate. Follow
 the normal implementation and release workflow, respecting his chosen execution
-mechanism. Use collaboration sub-agents first, including substantial implementation;
+mechanism. If addressed to a role, use [sub-agents](../sub-agents/SKILL.md) to
+dispatch that configured agent and honor its delegation restrictions; a role
+required to work individually must not delegate again. Otherwise, use collaboration
+sub-agents first, including substantial implementation;
 during realtime follow `realtime-orchestration`. Separate tasks and forks require
 an explicit user request. Do not create a second stewardship worker or run
 `prepare-visible-task.mjs` as a prerequisite for that explicit request. This does

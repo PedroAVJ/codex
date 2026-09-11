@@ -7,7 +7,7 @@ import test from "node:test";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const expected = {
   "name": "codex",
-  "version": "0.8.23",
+  "version": "0.8.24",
   "url": "https://github.com/PedroAVJ/codex",
   "dependencies": []
 };
@@ -26,6 +26,8 @@ test("standalone plugin metadata is synchronized", async () => {
   await access(join(root, "AGENTS.md"));
   await access(join(root, "skills", "codex-voice", "SKILL.md"));
   await access(join(root, "skills", "codex-memory", "SKILL.md"));
+  await access(join(root, "skills", "sub-agents", "SKILL.md"));
+  await access(join(root, "skills", "sub-agents", "scripts", "read-roles.py"));
   await access(join(root, "skills", "realtime-orchestration", "SKILL.md"));
   await access(join(root, "skills", "plugin-stewardship", "SKILL.md"));
   await access(join(root, "skills", "plugin-stewardship", "scripts", "assess-feedback.mjs"));

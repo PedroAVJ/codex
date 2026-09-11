@@ -9,6 +9,12 @@ Use this skill only in a Codex app thread with an active realtime voice session.
 Keep the parent conversation as the user's control surface. Respect the user's
 explicit routing and the host's available tools and permission boundaries.
 
+When the user addresses named roles, apply
+[sub-agents](../sub-agents/SKILL.md) first to resolve their actual configured
+agents, including multiple roles or parent-plus-role assignments. The parent has
+no implicit role. Explicit recipients and their delegation restrictions take
+precedence over the generic work-routing preferences below.
+
 ## Use sub-agents first
 
 - **Direct answer:** handle trivial questions, brief clarifications, tiny actions,

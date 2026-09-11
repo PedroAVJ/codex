@@ -56,6 +56,15 @@ executable; an invalid explicit override fails without switching runtimes.
 
 ## Realtime orchestration
 
+The `codex:sub-agents` skill routes requests addressed to named roles to the
+user's actual configured agents. The parent has no implicit role: ordinary
+conversation addresses the parent, while “Software engineer, fix this” selects
+the configured software specialist. Requests may address several roles, or the
+parent and roles together. Role models, reasoning effort, and delegation rules
+come from the live registry and role files, never a bundled role/effort ladder.
+This routing applies in text and voice and takes precedence over generic work
+routing. Private role configuration stays outside this repository.
+
 During GPT Live or another active realtime voice conversation, the parent Codex
 thread remains the user's conversational coordinator. Trivial questions stay in
 the parent. Collaboration sub-agents are the default for delegated research and
