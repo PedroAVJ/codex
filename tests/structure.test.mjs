@@ -7,7 +7,7 @@ import test from "node:test";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const expected = {
   "name": "codex",
-  "version": "0.8.25",
+  "version": "0.8.26",
   "url": "https://github.com/PedroAVJ/codex",
   "dependencies": []
 };
