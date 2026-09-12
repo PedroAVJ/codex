@@ -11,10 +11,14 @@
   live bridge keys, paired-device state, API credentials, logs, and the
   `com.pedro.codexvoice.bridge` service stable across plugin upgrades.
 - Bump the plugin version for released behavior changes and run `npm test` before publishing.
-- Keep named participants thread-scoped. A one-to-one thread has one participant
-  selected by its first substantive request; every later turn remains with that
-  participant. The host has no group chat, so do not simulate multiple speakers
-  in one thread. Internal model consultation does not change thread ownership.
+- Only configured employees may become persistent thread owners and inherit
+  unnamed follow-ups. Claude/Fable, Near, Spark, and Gemini are app/model
+  sources: invoke them only for turns that explicitly ask, address, use, or
+  consult them, and return their results with source attribution. Mentioning or
+  discussing an app is never an invocation. Grok is the sole app exception: an
+  explicitly established Grok/X research lane may retain related unnamed
+  follow-ups because it is the X/Twitter API route. The host has no group chat;
+  internal consultation never creates another participant.
 - Keep realtime queue advancement user-controlled rather than rotating on
   feedback.
 

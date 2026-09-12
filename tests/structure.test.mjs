@@ -7,7 +7,7 @@ import test from "node:test";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const expected = {
   "name": "codex",
-  "version": "0.8.30",
+  "version": "0.8.31",
   "url": "https://github.com/PedroAVJ/codex",
   "dependencies": []
 };
@@ -16,19 +16,18 @@ async function json(...parts) {
   return JSON.parse(await readFile(join(root, ...parts), "utf8"));
 }
 
-test("one-to-one participant ownership is thread-scoped", async () => {
+test("only employees own threads and app sources are per-turn", async () => {
   const skill = await readFile(join(root, "skills", "sub-agents", "SKILL.md"), "utf8");
-  assert.match(skill, /one-to-one thread has exactly one participant/i);
-  assert.match(skill, /selected participant owns\s+every later turn/i);
+  assert.match(skill, /Only an explicitly addressed, configured employee may become the persistent\s+owner/i);
+  assert.match(skill, /Claude\/Fable, Near, Spark, and Gemini are apps or model sources, not employees/i);
+  assert.match(skill, /Re-resolve that intent on every turn/i);
+  assert.match(skill, /unnamed follow-up goes to the current host or\s+employee/i);
+  assert.match(skill, /Return app results with\s+compact source attribution/i);
+  assert.match(skill, /Grok is the sole app exception/i);
+  assert.match(skill, /discussion of Grok as a product still\s+does not invoke it/i);
   assert.match(skill, /current host has no group chat/i);
-  assert.match(skill, /start a separate thread/i);
-  assert.match(skill, /Internal consultation[\s\S]*do not make the consulted models chat participants/);
-  assert.match(skill, /thread owner returns the only user-facing answer/i);
-  assert.match(skill, /Do not add a participant\s+name or model label in a one-to-one thread/i);
-  assert.doesNotMatch(skill, /No participant name \*\*always selects Codex\*\*/);
-  assert.doesNotMatch(skill, /previous speaker does not change the default/);
-  assert.doesNotMatch(skill, /Return each recipient's answer/);
-  assert.doesNotMatch(skill, /user requested both/);
+  assert.match(skill, /configured employee owner or current host returns the only conversational\s+answer/i);
+  assert.doesNotMatch(skill, /selected participant owns\s+every later turn/i);
 });
 
 test("standalone plugin metadata is synchronized", async () => {

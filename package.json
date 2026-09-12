@@ -1,6 +1,6 @@
 {
   "name": "@pedroavj/codex",
-  "version": "0.8.30",
+  "version": "0.8.31",
   "private": true,
   "description": "Use OpenAI Codex through its CLI and app-server, with realtime task orchestration, shared memory, review and rescue handoffs, coding contracts, and the Codex Voice Apple Watch companion.",
   "license": "MIT",

@@ -56,19 +56,21 @@ executable; an invalid explicit override fails without switching runtimes.
 
 ## Realtime orchestration
 
-The `codex:sub-agents` skill routes participant and role independently. Codex is
-the current main assistant, never a pinned version. Claude/Fable selects
-`claude-fable-5-1`; Spark selects `gpt-5.3-codex-spark`. A one-to-one thread has
-one participant, selected by its first substantive request, and every unnamed
-follow-up remains with that participant. The host has no group chat, so a thread
-never returns multiple participant voices. Consulted models may contribute
-internally, but the thread owner remains the sole speaker and is never
-impersonated.
+The `codex:sub-agents` skill separates employee ownership from app/model use.
+Configured employees may own a one-to-one thread and inherit unnamed follow-ups.
+Claude/Fable (`claude-fable-5-1`), Near, Spark (`gpt-5.3-codex-spark`), and
+Gemini are explicitly invoked sources for one turn at a time; merely mentioning
+or discussing one does not call it. Their results are source-attributed rather
+than presented as employee speech. The host has no group chat, so consultation
+never manufactures extra participants.
 
 Gemini and Grok can also be called through `scripts/named-participant.mjs` using
 their installed native CLIs and existing authentication. Gemini defaults to
 `gemini-3.5-flash`; Grok selects `grok-4.6`. The helper verifies native response
 model metadata, returns attributed JSON, and refuses silent model fallback.
+Grok is the sole app continuity exception: after an explicit Grok/X request
+establishes an X/Twitter research lane, related unnamed follow-ups may remain on
+that route. A discussion about the Grok product still does not invoke it.
 These CLIs run locally while model inference is hosted. Plugin installation does
 not grant provider access or purchase API usage. Authentication and quota failures
 remain explicit; the helper never starts or restarts a login challenge.
@@ -81,10 +83,10 @@ the routing skill for exact trust, permission, and verification limits. Grok's
 basic OAuth reply is verified; X Search was unavailable in the live probe and
 is not claimed as working. Native tool failures remain visible in `toolErrors`.
 
-All participants share the existing live role registry and instructions. A named
-participant overrides the role model only; exact reasoning effort and delegation
-constraints still apply. An incompatible participant declines that role rather
-than downgrading effort or substituting a model. The read-only role resolver's
+All app/model runs can use the existing live role registry and instructions. A
+per-turn source request overrides the role model only for that run; exact
+reasoning effort and delegation constraints still apply. An incompatible source
+declines that role rather than downgrading effort or substituting a model. The read-only role resolver's
 selected JSON is the shared `--role-contract` for Spark and the Claude helper.
 Private role configuration stays outside this repository. See
 [the routing skill](skills/sub-agents/SKILL.md) for dispatch and collaboration.

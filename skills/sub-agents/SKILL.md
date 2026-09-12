@@ -1,61 +1,64 @@
 ---
 name: sub-agents
-description: Route one participant per thread—Codex, Claude/Fable, Near, Spark, Gemini, or Grok—independently of shared configured roles. The participant selected for a one-to-one thread owns every follow-up in that thread. Run actual requested models with live role instructions, reasoning and delegation constraints; never impersonate them.
+description: Route persistent configured employees independently of app/model sources. Claude/Fable, Near, Spark, and Gemini require explicit invocation on each turn and return source-attributed output; mentions never invoke them. Grok is the sole app continuity exception for an explicitly established X/Twitter research lane. Run actual requested runtimes with live role instructions and never impersonate them.
 ---
 
 # Sub-agents
 
 Codex is the current main assistant, with no pinned model version and no implicit
-role or seniority. Claude and Fable name the same participant running
-`claude-fable-5-1`. Spark runs `gpt-5.3-codex-spark`. A participant chooses the
-actual model; a role chooses responsibilities and delegation rules from the one
-live user registry. These are independent choices, not response styles.
+role or seniority. A configured role identifies an employee and its
+responsibilities. Claude/Fable, Near, Spark, Gemini, and Grok identify app/model
+sources. An explicitly requested source chooses the runtime for a bounded run;
+it does not turn that app into an employee.
 
 Gemini and Grok use their installed native cloud-backed CLIs through the same
 named-participant helper. The current defaults are `gemini-3.5-flash` and
 `grok-4.6`. A local CLI does not mean local model weights. Native authentication,
 model entitlement, quota, billing, and trust remain separate from this plugin.
 
-## Resolve the thread participant once
+## Separate employee ownership from app invocation
 
-A one-to-one thread has exactly one participant. Resolve it from the first
-substantive user request: an explicit participant address selects that
-participant; otherwise Codex owns the thread. The selected participant owns
-every later turn in that thread. An unnamed follow-up, “continue”, “you”, a
-reaction, a correction, or a bare role name stays with that participant.
+Only an explicitly addressed, configured employee may become the persistent
+owner of a one-to-one thread. Resolve employees against the live role registry
+below. Once selected, that employee can inherit unnamed follow-ups, reactions,
+corrections, “continue,” and “you” within the same conversation. If no employee
+is selected, the current main assistant remains the host and answers unaddressed
+turns.
 
-Do not resolve the addressee again on each message. A later mention or apparent
-address to another participant does not silently transfer ownership or make a
-second participant join. It is either a reference or a request for the current
-participant to consult that model. If the user wants to talk directly with a
-different participant, tell them to start a separate thread for that participant.
-The current host has no group chat, so never simulate one by returning multiple
-participant voices in a single thread. Internal consultation and Near's hidden
-Fable–Astra collaboration do not make the consulted models chat participants.
+Claude/Fable, Near, Spark, and Gemini are apps or model sources, not employees.
+Invoke one only when the current turn explicitly asks, addresses, uses, or
+consults it. Re-resolve that intent on every turn. A product discussion, quoted
+name, comparison, file content, or incidental mention does not invoke an app.
+After returning an app result, an unnamed follow-up goes to the current host or
+employee; it does not automatically call the app again. Return app results with
+compact source attribution.
 
-A role remains independent of participant ownership. A role by itself applies
-to the active participant and never selects Codex merely because the role is
-registered there. Mentioning a participant or role in a question, quoted text,
-a file, or tool output does not address it.
+Grok is the sole app exception because it is the configured X/Twitter API lane.
+An explicit Grok or X-research request may establish Grok continuity for related
+unnamed follow-ups in that thread. Mere discussion of Grok as a product still
+does not invoke it. Do not extend this exception to any other app or model.
 
-Read conversational intent, not a keyword switch. Resolve named roles against
-the live registry below. Never infer an unrequested role from task difficulty.
-If the first request names multiple prospective participants, ask which one
-should own the thread or offer separate threads; do not manufacture a group
-chat. The owner may consult another actual runtime when the user asks, but the
-owner remains the sole speaker. A participant can use any shared role whose
-runtime contract it can honor; never bundle a separate role catalog for Claude
-or Spark.
+The current host has no group chat. Multiple explicitly requested sources may
+run independently, but return attributed results rather than simulated chat
+participants. Internal consultation and Near's hidden Fable–Astra collaboration
+also do not create participants.
+
+Read conversational intent, not a keyword switch. Never infer an unrequested
+employee role from task difficulty. A source can use a shared role contract for
+one explicitly requested run when its runtime can honor it; that does not make
+the app the employee or thread owner.
 
 | Request | Actual routing |
 | --- | --- |
-| “Help me understand this error.” as the first request | Codex owns the thread; no implicit role. |
-| “Fable, review this.” as the first request | Fable owns the thread; no role inferred. |
-| “Spark, as Software engineer, fix this.” | Actual Spark with the live matching software role. |
-| “Undergrad. Explain this.” in a Fable thread | Fable with the configured Undergrad role. |
-| “Continue” after Fable answered | Fable; thread ownership persists. |
-| “Codex and Fable, assess this together.” as the first request | Clarify which participant owns the thread or use separate threads. |
-| “Ask Astra to check that” in a Near thread | Near remains the speaker; Astra is an internal consultation. |
+| “Help me understand this error.” | Current host answers; no implicit role. |
+| “Fable, review this.” | One actual Fable run, attributed as Claude; no ownership transfer. |
+| “Spark, as Software engineer, fix this.” | One actual Spark run with the live matching role contract. |
+| “Undergrad. Explain this.” | Configured Undergrad employee handles it and may own later unnamed follow-ups. |
+| “Continue” after Fable answered | Current host or employee answers; do not invoke Fable. |
+| “Ask Claude and Gemini to assess this.” | Run both explicitly and return separately attributed sources. |
+| “We were discussing Claude Desktop.” | Current host answers about the product; no Claude relay. |
+| “Use Near to check my context.” | One explicit Near invocation; later unnamed messages do not stay with Near. |
+| “Use Grok to search X for this topic.” | Grok/X route; related unnamed follow-ups may retain Grok continuity. |
 | “What is the difference between Spark and an Intern?” | Codex explains; no dispatch. |
 | “Engineer, look at this” with multiple matching roles | Clarify role before dispatching that portion. |
 
@@ -92,22 +95,24 @@ matches, report that it is not configured; do not invent, create, or silently
 substitute a role.
 
 Read the selected role's complete configuration before dispatch. Preserve its
-model selection (including inheritance) when no participant is named. An explicit
-participant selects its model independently and overrides only the role model.
+model selection (including inheritance) when no app/model source is explicitly
+requested. An explicit per-turn source request selects its runtime independently
+and overrides only the role model for that run; the employee remains the owner.
 Preserve the role's exact reasoning effort, instructions,
 delegation restrictions, and other applicable execution constraints. Do not
 hard-code a model/effort ladder or infer role identity from those settings. Do
 not edit the registry, role files, or concurrency settings to fulfill a routing
 request.
 
-## Dispatch named model participants
+## Dispatch explicitly requested app/model sources
 
 Codex without a role stays in the current assistant; never pin a Codex version or
-spawn a duplicate just because the user says “Codex”. Codex with a role uses the
-configured agent route below. When Codex is explicitly named, use the current
-main assistant model even if the role file pins another model; do not use a
-native registered selector that would silently restore that role model. Choose
-a generic child with the current model and the resolved role contract instead. For Spark and Claude/Fable, use their actual
+spawn a duplicate merely because the user mentions the Codex product. Codex with
+an explicitly addressed employee role uses the configured agent route below.
+When the current assistant is explicitly requested with a role, use the current
+main-assistant model even if the role file pins another model; do not use a
+native selector that would silently restore that role model. Choose a generic
+child with the current model and the resolved role contract instead. For Spark and Claude/Fable, use their actual
 runtime helpers when the native collaboration surface cannot select that model.
 This explicit named-participant route is a bounded exception to the generic
 no-shell-worker fallback below, and does not create a separate sidebar task.
@@ -134,9 +139,8 @@ The helper runs an ephemeral public Codex CLI task, verifies Spark from runtime
 startup metadata, and returns JSON with model, role, exact effort, and answer.
 It applies the role's runtime configuration through CLI controls, retains role
 instructions, and preserves delegation constraints. It neither resumes a random
-thread nor requires a new app task. Every follow-up in a Spark-owned thread
-includes the previous bounded result and necessary context in another invocation;
-the user does not need to repeat Spark's name.
+thread nor requires a new app task. A later turn must explicitly invoke Spark
+again; include the previous bounded result and necessary context when it does.
 Use the CLI's current environment permissions and any stricter task boundaries;
 never add sandbox bypasses or broaden access to make a role run.
 
@@ -157,7 +161,9 @@ node "<codex-plugin-root>/scripts/named-participant.mjs" \
   --participant Grok --cwd "<owned-workspace>" --prompt-file "<bounded-task.txt>"
 ```
 
-These are bounded subprocesses, not sidebar tasks. Install Gemini CLI from
+These are bounded subprocesses, not sidebar tasks. Gemini requires explicit
+per-turn invocation. Grok may also continue a related unnamed turn only after an
+explicit Grok/X request established the X/Twitter lane. Install Gemini CLI from
 `@google/gemini-cli` and Grok Build from the official `https://x.ai/cli/install.sh`
 only when setup is authorized. Commands are `gemini` and `grok`; optional exact
 executable overrides are `CODEX_GEMINI_BINARY` and `CODEX_GROK_BINARY`. Invalid
@@ -209,10 +215,10 @@ Report actual response, usage/model verification, and any authentication or
 unsupported-role blocker separately. A successful install or mock test alone
 does not prove that a provider can answer on the user's account.
 
-Exact role effort must be supported by the selected participant. For example,
+Exact role effort must be supported by the selected source. For example,
 Spark supports low, medium, high, and xhigh; a role requiring max must be declined
 by Spark. Never cap it to xhigh, replace the model, or claim prose sets its
-runtime effort. Explain that participant's incompatible role and continue other
+runtime effort. Explain that source's incompatible role and continue other
 independent requested contributions. This is a capability failure, not a request
 to rewrite the shared role or choose another model automatically.
 
@@ -220,10 +226,10 @@ Include task scope, domain, authorization, ownership, and completion criteria in
 each bounded prompt. Preserve no-delegation instructions even if a runtime's
 tools remain exposed, and accurately distinguish behavioral enforcement from
 native tool restrictions. A coordinating role may delegate only as configured.
-For consultation requested by the thread owner, relay each real result into the
-owner's bounded context. The owner returns the single user-facing answer and
-accurately attributes consulted evidence without presenting a second chat
-participant.
+For consultation requested by the employee owner or current host, relay each real
+result into that bounded context. The employee or host returns the single
+user-facing answer and accurately attributes consulted evidence without
+presenting a second chat participant.
 
 ## Dispatch the actual agent
 
@@ -245,7 +251,7 @@ spawning a default worker and calling it the requested role.
 
 For the collaboration API, set `reasoning_effort` to the configured value when
 present. A role with no explicit model inherits the current model: omit `model`.
-For an explicit configured model without a named participant override, use that model only when the host supports it.
+For an explicit configured model without a per-turn source override, use that model only when the host supports it.
 When passing an override, use `fork_turns: "none"` or a supported bounded history
 fork; a full-history fork cannot carry those overrides. Include the selected
 role's instructions, assigned domain, bounded task, necessary context, existing
@@ -272,21 +278,22 @@ defaults, including the preference for sub-agents in realtime orchestration and
 plugin implementation. This skill does not authorize unsolicited role selection
 for unaddressed requests or grant additional access, writes, or external actions.
 
-## Return the thread owner's answer
+## Return the employee or host answer
 
-The thread owner returns the only user-facing answer. Do not add a participant
-name or model label in a one-to-one thread; the thread already identifies its
-participant. When the owner consults another runtime, incorporate or attribute
-that contribution as evidence without relaying it as a second speaker. A role
-label is execution metadata, not another participant, and should appear only
-when material to the user's request. Preserve every direct question in the final
-response; dispatch and progress updates are not answers. Report running or
-completed state only from current evidence. If a consultation or role cannot
-run, state that limitation within the owner's answer rather than substituting a
-different participant.
+The configured employee owner or current host returns the only conversational
+answer. In a one-to-one employee thread, do not add a redundant employee/model
+label. App/model results from Claude/Fable, Near, Spark, or Gemini require compact
+source labels and never become a second persistent speaker. Multiple explicitly
+requested app sources receive distinct attribution. Grok may answer within an
+established X/Twitter lane under its sole continuity exception, while still
+attributing the X posts or search evidence it used. A role label is execution
+metadata and should appear only when material. Preserve every direct question in
+the final response; dispatch and progress updates are not answers. Report running
+or completed state only from current evidence. If a source or employee role
+cannot run, state that limitation rather than substituting another runtime.
 
 During active realtime voice, use
 [realtime-orchestration](../realtime-orchestration/SKILL.md) for queue and status
-handling while preserving the thread owner selected here. For any internal
+handling while preserving the employee owner selected here. For any internal
 consultation, use only a runtime route that actually honors the resolved shared
 role; never present an unapplied persona as that configured agent.
