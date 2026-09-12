@@ -15,14 +15,8 @@
   selected by its first substantive request; every later turn remains with that
   participant. The host has no group chat, so do not simulate multiple speakers
   in one thread. Internal model consultation does not change thread ownership.
-- Keep unsolicited plugin stewardship opt-in by evidence: only direct, explicit,
-  reusable corrections to agent-loaded plugin behavior may create a sanitized
-  stewardship sub-agent without copied history. Separate tasks or forks require
-  an explicit user request. Never fork or copy the originating conversation for that
-  unsolicited handoff, and never block it while stewardship runs. Explicitly
-  requested plugin implementation follows normal work routing instead, including
-  sub-agents for substantial work; do not force it through stewardship. Keep
-  realtime queue advancement user-controlled rather than rotating on feedback.
+- Keep realtime queue advancement user-controlled rather than rotating on
+  feedback.
 
 ## Design workspaces
 

@@ -13,8 +13,7 @@ product identities. This plugin owns what is specifically Codex:
 - rescue and review handoffs from Claude Code;
 - lifecycle, shared-memory, and stop-review hooks;
 - user-controlled realtime conversation queues and sub-agent-first delegated work;
-- coding, image-generation prompting, source-attributed result handling, and
-  non-blocking stewardship of reusable plugin corrections; and
+- coding, image-generation prompting, and source-attributed result handling; and
 - the end-to-end encrypted Codex Voice Mac bridge, remote relay, minimal iPhone
   pairing companion, and voice-first Apple Watch app.
 
@@ -106,10 +105,7 @@ meaningful progress, questions, and results.
 The parent keeps a verified priority queue and delivers one topic at a time.
 Feedback goes to the same owner and stays on that topic; only the user chooses
 when to advance. A completed worker run or delivered answer
-does not remove a still-open topic. Explicit plugin implementation uses normal
-work routing, not the unsolicited plugin-stewardship bootstrap. Qualifying
-unsolicited stewardship uses a sanitized sub-agent without copied history by
-default; its visible-task bootstrap is reserved for an explicitly requested task.
+does not remove a still-open topic.
 
 ## Install
 
