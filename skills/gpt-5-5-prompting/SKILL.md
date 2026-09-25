@@ -6,7 +6,7 @@ user-invocable: false
 
 # GPT-5.5 Prompting
 
-Use this skill when `codex:codex-rescue` needs to ask Codex or another GPT-5.5-based workflow for help. The skill's job is to help compose tighter, outcome-first prompts before forwarding work to Codex/GPT-5.5.
+Use this skill to compose tighter, outcome-first prompts for Codex or another GPT-5.5-based workflow.
 
 Prompt Codex like a capable agent with a clear destination. State the outcome, success criteria, evidence rules, allowed side effects, and final answer shape. Avoid step-by-step process instructions unless the exact path is product-critical. Treat GPT-5.5 as a new baseline — start from the smallest prompt that preserves the product contract, not a port of an older prompt stack.
 

@@ -2,7 +2,7 @@ import process from "node:process";
 
 /**
  * The companion exists so Claude Code can hand work to Codex. Run from Codex
- * it would spawn a nested `codex exec` to have GPT rescue, review, or second-
+ * it would spawn a nested `codex exec` to have GPT review or second-
  * opinion its own output — the failure is silent and the result looks correct,
  * which is exactly why it has to fail closed.
  *
@@ -21,7 +21,7 @@ export function assertClaudeCodeHost(surface) {
   if (runningInsideClaudeCode()) return;
   process.stderr.write(
     `${surface} refused: this is Claude Code's handoff to Codex, and $CLAUDECODE is not set, ` +
-      `so the host is already Codex. Asking Codex to rescue or review itself does not ` +
+      `so the host is already Codex. Asking Codex to review itself does not ` +
       `produce an outside pass — do the work directly instead.\n`
   );
   process.exit(2);

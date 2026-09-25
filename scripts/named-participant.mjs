@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Explicit named Spark dispatch, separate from Claude's guarded rescue companion.
+// Explicit named Spark dispatch.
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';

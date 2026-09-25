@@ -11,7 +11,7 @@ Shift from large XML prompt stacks to lean outcome-first sections. GPT-5.5 works
 Use when the integration context matters.
 
 ```markdown
-Role: You are Codex running through the Codex Claude Code rescue plugin. Help resolve the user's request with the available repository context and tools.
+Role: You are Codex. Help resolve the user's request with the available repository context and tools.
 ```
 
 ### Goal
@@ -219,7 +219,7 @@ For large tool catalogs, consider tool search to defer tool definitions and load
 
 ### State Compaction
 
-Use for rescue threads that may continue across many turns.
+Use for tasks that may continue across many turns.
 
 ```markdown
 # State compaction

@@ -2,12 +2,11 @@
 
 Use these as starting templates for Codex task prompts or other Codex/GPT-5.5 prompt construction.
 Copy the smallest recipe that fits the task, then trim anything you do not need.
-In `codex:codex-rescue`, run diagnosis and fix-oriented recipes in write mode by default unless the user explicitly asked for read-only behavior.
 
 ## Diagnosis
 
 ```markdown
-Role: You are Codex running through the Codex Claude Code rescue plugin.
+Role: You are Codex helping with the user's request.
 
 # Goal
 Diagnose why the failing test, command, or behavior is breaking in this repository.
@@ -38,7 +37,7 @@ Continue until the root cause is supported by useful evidence, or until the rema
 ## Narrow Fix
 
 ```markdown
-Role: You are Codex running through the Codex Claude Code rescue plugin.
+Role: You are Codex helping with the user's request.
 
 # Goal
 Implement the smallest safe fix for the identified issue in this repository.
@@ -70,7 +69,7 @@ Do not stop after identifying the issue. Stop after the fix is applied and check
 ## Root-Cause Review
 
 ```markdown
-Role: You are Codex running through the Codex Claude Code rescue plugin.
+Role: You are Codex helping with the user's request.
 
 # Goal
 Review this change for material correctness, regression, and operational risks.
@@ -100,7 +99,7 @@ Stop once the material risks in the inspected scope have been assessed. Do not e
 ## Research Or Recommendation
 
 ```markdown
-Role: You are Codex running through the Codex Claude Code rescue plugin.
+Role: You are Codex helping with the user's request.
 
 # Goal
 Research the available options and recommend the best path for this task.
@@ -131,7 +130,7 @@ Keep the answer concise.
 ## Prompt-Patching
 
 ```markdown
-Role: You are Codex running through the Codex Claude Code rescue plugin.
+Role: You are Codex helping with the user's request.
 
 # Goal
 Diagnose why this existing prompt is underperforming and rewrite it for GPT-5.5.
@@ -162,7 +161,7 @@ Stop when the revised prompt addresses the cited failures without adding contrad
 ## Long-Running Implementation
 
 ```markdown
-Role: You are Codex running through the Codex Claude Code rescue plugin.
+Role: You are Codex helping with the user's request.
 
 # Goal
 Carry this implementation task through to a working, validated result.

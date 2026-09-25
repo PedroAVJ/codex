@@ -1,8 +1,6 @@
 /**
  * @typedef {import("./app-server-protocol").AppServerNotification} AppServerNotification
  * @typedef {import("./app-server-protocol").ReviewTarget} ReviewTarget
- * @typedef {import("./app-server-protocol").ThreadItem} ThreadItem
- * @typedef {import("./app-server-protocol").ThreadResumeParams} ThreadResumeParams
  * @typedef {import("./app-server-protocol").ThreadStartParams} ThreadStartParams
  * @typedef {import("./app-server-protocol").Turn} Turn
  * @typedef {import("./app-server-protocol").UserInput} UserInput
@@ -29,8 +27,6 @@
  *   reasoningSummary: string[],
  *   error: unknown,
  *   messages: Array<{ lifecycle: string, phase: string | null, text: string }>,
- *   fileChanges: ThreadItem[],
- *   commandExecutions: ThreadItem[],
  *   onProgress: ProgressReporter | null
  * }} TurnCaptureState
  */
@@ -41,9 +37,6 @@ import { resolveCodexBinary } from "./codex-binary.mjs";
 import { binaryAvailable } from "./process.mjs";
 
 const SERVICE_NAME = "claude_code_codex_plugin";
-const TASK_THREAD_PREFIX = "Codex Companion Task";
-const DEFAULT_CONTINUE_PROMPT =
-  "Continue from the current thread state. Pick the next highest-value step and follow through until the task is resolved.";
 
 function cleanCodexStderr(stderr) {
   return stderr
@@ -69,19 +62,6 @@ function buildThreadParams(cwd, options = {}) {
   };
 }
 
-/** @returns {ThreadResumeParams} */
-function buildResumeParams(threadId, cwd, options = {}) {
-  return {
-    threadId,
-    cwd,
-    model: options.model ?? null,
-    ...(options.sandbox === null ? {} : {
-      approvalPolicy: options.approvalPolicy ?? "never",
-      sandbox: options.sandbox ?? "read-only"
-    })
-  };
-}
-
 /** @returns {UserInput[]} */
 function buildTurnInput(prompt) {
   return [{ type: "text", text: prompt, text_elements: [] }];
@@ -104,11 +84,6 @@ function looksLikeVerificationCommand(command) {
   );
 }
 
-function buildTaskThreadName(prompt) {
-  const excerpt = shorten(prompt, 56);
-  return excerpt ? `${TASK_THREAD_PREFIX}: ${excerpt}` : TASK_THREAD_PREFIX;
-}
-
 function extractThreadId(message) {
   return message?.params?.threadId ?? null;
 }
@@ -121,18 +96,6 @@ function extractTurnId(message) {
     return message.params.turn.id;
   }
   return null;
-}
-
-function collectTouchedFiles(fileChanges) {
-  const paths = new Set();
-  for (const fileChange of fileChanges) {
-    for (const change of fileChange.changes ?? []) {
-      if (change.path) {
-        paths.add(change.path);
-      }
-    }
-  }
-  return [...paths];
 }
 
 function normalizeReasoningText(text) {
@@ -330,8 +293,6 @@ function createTurnCaptureState(threadId, options = {}) {
     reasoningSummary: [],
     error: null,
     messages: [],
-    fileChanges: [],
-    commandExecutions: [],
     onProgress: options.onProgress ?? null
   };
 }
@@ -477,14 +438,6 @@ function recordItem(state, item, lifecycle, threadId = null) {
     return;
   }
 
-  if (item.type === "fileChange" && lifecycle === "completed") {
-    state.fileChanges.push(item);
-    return;
-  }
-
-  if (item.type === "commandExecution" && lifecycle === "completed") {
-    state.commandExecutions.push(item);
-  }
 }
 
 function applyTurnNotification(state, message) {
@@ -659,10 +612,6 @@ async function startThread(client, cwd, options = {}) {
   return response;
 }
 
-async function resumeThread(client, threadId, cwd, options = {}) {
-  return client.request("thread/resume", buildResumeParams(threadId, cwd, options));
-}
-
 function buildResultStatus(turnState) {
   return turnState.finalTurn?.status === "completed" ? 0 : 1;
 }
@@ -830,7 +779,7 @@ export function getSessionRuntimeStatus(env = process.env, cwd = process.cwd()) 
   return {
     mode: "direct",
     label: "direct startup",
-    detail: "No shared Codex runtime is active yet. The first review or task command will start one on demand.",
+    detail: "No shared Codex runtime is active yet. The first review command will start one on demand.",
     endpoint: null
   };
 }
@@ -975,117 +924,45 @@ export async function runAppServerTurn(cwd, options = {}) {
   }
 
   return withAppServer(cwd, async (client) => {
-    let threadId;
+    emitProgress(options.onProgress, "Starting Codex review thread.", "starting");
+    const response = await startThread(client, cwd, {
+      model: options.model,
+      sandbox: "read-only",
+      ephemeral: true
+    });
+    const threadId = response.thread.id;
+    emitProgress(options.onProgress, `Thread ready (${threadId}).`, "starting", { threadId });
 
-    try {
-      if (options.resumeThreadId) {
-        emitProgress(options.onProgress, `Resuming thread ${options.resumeThreadId}.`, "starting");
-        const resumeOptions = { model: options.model, sandbox: options.sandbox };
-        let response;
-        try {
-          response = await resumeThread(client, options.resumeThreadId, cwd, resumeOptions);
-        } catch (error) {
-          const message = String(error.message ?? error);
-          if (!options.archiveOnCompletion || !message.includes("is archived") || !message.includes("codex unarchive")) {
-            throw error;
-          }
-          await client.request("thread/unarchive", { threadId: options.resumeThreadId });
-          threadId = options.resumeThreadId;
-          emitProgress(options.onProgress, `Reopening helper thread ${threadId}.`, "starting", { threadId });
-          // The outer finally rearchives even when this retry cannot start.
-          response = await resumeThread(client, threadId, cwd, resumeOptions);
-        }
-        threadId = response.thread.id;
-      } else {
-        emitProgress(options.onProgress, "Starting Codex task thread.", "starting");
-        const response = await startThread(client, cwd, {
-          model: options.model,
-          sandbox: options.sandbox,
-          ephemeral: options.persistThread ? false : true,
-          threadName: options.persistThread ? options.threadName : options.threadName ?? null
-        });
-        threadId = response.thread.id;
-      }
-
-      emitProgress(options.onProgress, `Thread ready (${threadId}).`, "starting", {
-        threadId
-      });
-
-      const prompt = options.prompt?.trim() || options.defaultPrompt || "";
-      if (!prompt) {
-        throw new Error("A prompt is required for this Codex run.");
-      }
-
-      const turnState = await captureTurn(
-        client,
-        threadId,
-        () =>
-          client.request("turn/start", {
-            threadId,
-            input: buildTurnInput(prompt),
-            model: options.model ?? null,
-            effort: options.effort ?? null,
-            outputSchema: options.outputSchema ?? null
-          }),
-        { onProgress: options.onProgress }
-      );
-
-      return {
-        status: buildResultStatus(turnState),
-        threadId,
-        turnId: turnState.turnId,
-        finalMessage: turnState.lastAgentMessage,
-        reasoningSummary: turnState.reasoningSummary,
-        turn: turnState.finalTurn,
-        error: turnState.error,
-        stderr: cleanCodexStderr(client.stderr),
-        fileChanges: turnState.fileChanges,
-        touchedFiles: collectTouchedFiles(turnState.fileChanges),
-        commandExecutions: turnState.commandExecutions
-      };
-    } finally {
-      if (options.archiveOnCompletion && threadId) {
-        try {
-          await client.request("thread/archive", { threadId });
-        } catch (error) {
-          // Keep the completed answer or original failure. Make cleanup failure
-          // observable through the same stderr/log channel as other progress.
-          emitProgress(options.onProgress,
-            `Could not archive helper thread ${threadId}: ${error.message ?? error}`,
-            "cleanup-failed");
-        }
-      }
+    const prompt = options.prompt?.trim() ?? "";
+    if (!prompt) {
+      throw new Error("A prompt is required for this Codex run.");
     }
+
+    const turnState = await captureTurn(
+      client,
+      threadId,
+      () =>
+        client.request("turn/start", {
+          threadId,
+          input: buildTurnInput(prompt),
+          model: options.model ?? null,
+          effort: null,
+          outputSchema: options.outputSchema ?? null
+        }),
+      { onProgress: options.onProgress }
+    );
+
+    return {
+      status: buildResultStatus(turnState),
+      threadId,
+      turnId: turnState.turnId,
+      finalMessage: turnState.lastAgentMessage,
+      reasoningSummary: turnState.reasoningSummary,
+      turn: turnState.finalTurn,
+      error: turnState.error,
+      stderr: cleanCodexStderr(client.stderr)
+    };
   });
-}
-
-export async function findLatestTaskThread(cwd) {
-  const availability = getCodexAvailability(cwd);
-  if (!availability.available) {
-    throw new Error("Codex CLI is not installed or is missing required runtime support. Install it with `npm install -g @openai/codex`, then rerun `/codex:setup`.");
-  }
-
-  return withAppServer(cwd, async (client) => {
-    const threads = [];
-    for (const archived of [false, true]) {
-      const response = await client.request("thread/list", {
-        cwd,
-        archived,
-        limit: 20,
-        sortKey: "updated_at",
-        sourceKinds: ["appServer"],
-        searchTerm: TASK_THREAD_PREFIX
-      });
-      threads.push(...response.data);
-    }
-    return threads
-      .filter((thread) => typeof thread.name === "string" && thread.name.startsWith(TASK_THREAD_PREFIX))
-      .sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))[0] ?? null;
-  });
-}
-
-export function buildPersistentTaskThreadName(prompt) {
-  return buildTaskThreadName(prompt);
 }
 
 export function parseStructuredOutput(rawOutput, fallback = {}) {
@@ -1118,5 +995,3 @@ export function parseStructuredOutput(rawOutput, fallback = {}) {
 export function readOutputSchema(schemaPath) {
   return readJsonFile(schemaPath);
 }
-
-export { DEFAULT_CONTINUE_PROMPT, TASK_THREAD_PREFIX };

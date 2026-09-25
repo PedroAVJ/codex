@@ -116,7 +116,7 @@ child with the current model and the resolved role contract instead. For Spark a
 runtime helpers when the native collaboration surface cannot select that model.
 This explicit named-participant route is a bounded exception to the generic
 no-shell-worker fallback below, and does not create a separate sidebar task.
-Do not modify the rescue companion host guard or pretend a generic child is Spark.
+Do not pretend a generic child is Spark.
 
 Resolve the selected role once using `read-roles.py --role <exact-key>` and save
 its complete JSON to a private temporary file outside Git (`--role-contract`).
