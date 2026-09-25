@@ -1,7 +1,7 @@
 # Codex App
 
 OpenAI Codex as a coding agent: CLI and app-server integration, Claude Code
-handoffs, reviews, hooks, prompting, result handling, and the Codex Voice
+handoffs, reviews, prompting, result handling, and the Codex Voice
 iPhone and Apple Watch companion.
 
 ## Product boundary
@@ -10,8 +10,7 @@ ChatGPT and Codex now share one macOS application bundle, but they remain useful
 product identities. This plugin owns what is specifically Codex:
 
 - the Codex CLI and app-server runtime;
-- rescue and review handoffs from Claude Code;
-- lifecycle, shared-memory, and stop-review hooks;
+- review handoffs from Claude Code;
 - user-controlled realtime conversation queues and sub-agent-first delegated work;
 - coding, image-generation prompting, and source-attributed result handling; and
 - the end-to-end encrypted Codex Voice Mac bridge, remote relay, minimal iPhone
@@ -29,25 +28,20 @@ upgrade.
 
 ## Claude Code surface
 
-The `commands/`, `agents/`, `hooks/`, `prompts/`, `schemas/`, and `scripts/`
-payload is based on OpenAI's `codex-plugin-cc`. It lets Claude Code hand one
-bounded coding task to Codex, run native or adversarial reviews, monitor the
-result, enforce an optional stop-time review gate, and use Codex local memory as
-the canonical cross-client personal context store.
+The `commands/`, `prompts/`, `schemas/`, and `scripts/` payload is based on
+OpenAI's `codex-plugin-cc`. It lets Claude Code run native or adversarial Codex
+reviews and monitor the result.
 
-When `~/.codex/memories/memory_summary.md` exists, the Claude `SessionStart` and
-`SubagentStart` hooks inject that compact generated summary. The
-`codex:codex-memory` skill searches the deeper registry and accepts explicit
+The `codex:codex-memory` skill searches the Codex memory registry and accepts explicit
 add, correction, or retraction requests as append-only ad-hoc notes for Codex's
 background consolidation model. It never edits generated memory files or loads
-memory-derived skills. Set `CODEX_MEMORY_BRIDGE=0` to disable context injection.
+memory-derived skills.
 Claude native auto-memory should remain disabled rather than pointing it at the
 Codex memory directory.
 
-The rescue companion host guard intentionally refuses to delegate when the host is already
-Codex. Explicit named Spark requests use the separate `scripts/named-participant.mjs`
-bounded CLI helper; this does not bypass or change the rescue guard. That keeps installing this product-level plugin in Codex conceptually
-correct without asking Codex to rescue itself.
+The companion host guard refuses to run Claude Code review commands inside Codex.
+Explicit named Spark requests use the separate `scripts/named-participant.mjs`
+bounded CLI helper.
 
 The helper selects the newest available Codex CLI from PATH and the standard
 macOS desktop app bundles, avoiding stale standalone runtimes retained by a

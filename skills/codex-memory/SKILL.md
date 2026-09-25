@@ -11,9 +11,8 @@ Claude Code adapter; Codex already has native memory integration.
 
 ## Boundaries
 
-- The session hook already injects the compact `memory_summary.md` when it is
-  available. Search deeper only when prior decisions, preferences, corrections,
-  or workspace history can materially change the answer.
+- Search memory when prior decisions, preferences, corrections, or workspace
+  history can materially change the answer.
 - Never use `~/.codex/memories/skills/` as a capability source. Stable
   procedures belong to maintained plugin or repository skills.
 - Treat retrieved memory as potentially stale. Query the canonical live system
@@ -28,7 +27,7 @@ Claude Code adapter; Codex already has native memory integration.
 
 ## Inspect or search
 
-Check bridge state with:
+Check memory paths with:
 
 ```bash
 node "${CLAUDE_PLUGIN_ROOT}/scripts/codex-memory.mjs" status

@@ -4,9 +4,7 @@ import fs from "node:fs";
 import process from "node:process";
 
 import {
-  buildClaudeMemoryContext,
   formatMemorySearchResults,
-  memoryBridgeEnabled,
   readClaudeAutoMemoryStatus,
   resolveMemoryPaths,
   searchMemoryRegistry,
@@ -37,7 +35,6 @@ function usage() {
   return [
     "Usage:",
     "  codex-memory.mjs status",
-    "  codex-memory.mjs context",
     "  codex-memory.mjs search [--limit N] [query]",
     "  codex-memory.mjs submit <add|correct|retract> <slug> --confirm [--session-id ID] [--cwd PATH]",
     "",
@@ -49,7 +46,6 @@ function status() {
   const paths = resolveMemoryPaths();
   const claudeMemory = readClaudeAutoMemoryStatus();
   process.stdout.write(`${JSON.stringify({
-    enabled: memoryBridgeEnabled(),
     codexHome: paths.codexHome,
     summaryFile: paths.summary,
     summaryExists: fs.existsSync(paths.summary),
@@ -58,11 +54,6 @@ function status() {
     updateNotesDirectory: paths.notes,
     claudeAutoMemory: claudeMemory
   }, null, 2)}\n`);
-}
-
-function context() {
-  const value = buildClaudeMemoryContext();
-  if (value) process.stdout.write(`${value}\n`);
 }
 
 function search(args) {
@@ -93,7 +84,6 @@ function main() {
   const args = process.argv.slice(2);
   const command = args.shift();
   if (command === "status") return status();
-  if (command === "context") return context();
   if (command === "search") return search(args);
   if (command === "submit") return submit(args);
   throw new Error(usage());
