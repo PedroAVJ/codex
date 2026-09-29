@@ -1,8 +1,8 @@
 {
   "name": "@pedroavj/codex",
-  "version": "0.8.33",
+  "version": "0.9.0",
   "private": true,
-  "description": "Use OpenAI Codex through its CLI and app-server, with realtime task orchestration, memory search, review handoffs, coding contracts, and the Codex Voice Apple Watch companion.",
+  "description": "Generate and edit images with OpenAI image generation from Claude Code through the Codex CLI or the OpenAI Image API, plus Codex code-review commands.",
   "license": "MIT",
   "repository": {
     "type": "git",

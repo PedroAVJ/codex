@@ -1,7 +1,7 @@
 {
   "name": "codex",
-  "version": "0.8.33",
-  "description": "Use OpenAI Codex from Claude Code for coding, memory search, image prompting, review, and the Codex Voice Apple Watch companion.",
+  "version": "0.9.0",
+  "description": "Generate and edit images with OpenAI image generation from Claude Code through the Codex CLI or the OpenAI Image API, plus Codex code-review commands.",
   "author": {
     "name": "PedroAVJ",
     "url": "https://github.com/PedroAVJ"
@@ -12,14 +12,10 @@
   "keywords": [
     "codex",
     "openai",
-    "coding-agent",
-    "cli",
-    "app-server",
+    "image-generation",
+    "gpt-image",
     "review",
-    "claude-code",
-    "apple-watch",
-    "voice",
-    "realtime"
+    "claude-code"
   ],
   "skills": "./skills/"
 }
